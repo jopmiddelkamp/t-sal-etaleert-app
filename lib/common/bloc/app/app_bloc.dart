@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsal_etaleert/common/services/shared-preferences-service.dart';
 
+import '../../../common/services/shared-preferences-service.dart';
 import 'barrel.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
@@ -10,7 +10,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc(this._sharedPreferencesService)
       : assert(_sharedPreferencesService != null),
-        super(AppLoading()) {
+        super(AppInitializing()) {
     add(AppInitialize());
   }
 
@@ -27,14 +27,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   Stream<AppState> _init() async* {
     try {
-      await _sharedPreferencesService.onReady;
-      yield AppLoaded(
+      yield AppInitialized(
         firebaseApp: await Firebase.initializeApp(),
-        introAccepted: _sharedPreferencesService.introAccepted,
+        introAccepted: await _sharedPreferencesService.getIntroPassed(),
       );
     } on Exception catch (e) {
       debugPrint(e.toString());
-      yield AppLoadingError(message: e.toString());
+      yield AppAppInitializationError(message: e.toString());
     }
   }
 }

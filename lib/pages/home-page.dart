@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
 
+import '../common/bloc/permissions/barrel.dart';
+import '../common/bloc/permissions/permissions_event.dart';
 import '../common/extensions/build_context.extensions.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String routeName = '/home';
 
   static MaterialPageRoute route() {
     return MaterialPageRoute(
       builder: (context) => HomePage(),
     );
+  }
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.blocProvider<PermissionsBloc>().add(PermissionsAskUser());
+    super.initState();
   }
 
   @override

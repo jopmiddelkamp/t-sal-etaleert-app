@@ -5,28 +5,31 @@ abstract class AppState {
   const AppState() : super();
 }
 
-class AppLoading extends AppState {}
+class AppInitializing extends AppState {
+  @override
+  String toString() => 'AppInitializing { }';
+}
 
-class AppLoaded extends AppState {
+class AppInitialized extends AppState {
   final FirebaseApp firebaseApp;
   final bool introAccepted;
 
-  const AppLoaded({
+  const AppInitialized({
     @required this.firebaseApp,
     @required this.introAccepted,
   });
 
   @override
-  String toString() => 'AppLoaded { introAccepted: $introAccepted }';
+  String toString() => 'AppInitialized { introAccepted: $introAccepted }';
 }
 
-class AppLoadingError extends AppState {
+class AppAppInitializationError extends AppState {
   final String message;
 
-  const AppLoadingError({
+  const AppAppInitializationError({
     @required this.message,
   });
 
   @override
-  String toString() => 'AppLoadingError { message: \'$message\' }';
+  String toString() => 'AppAppInitializationError { message: \'$message\' }';
 }

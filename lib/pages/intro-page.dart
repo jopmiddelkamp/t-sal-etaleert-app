@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../common/bloc/permissions/barrel.dart';
+import '../common/services/shared-preferences-service.dart';
 import '../components/buttons/tsal-primary-button.dart';
-import '../common/bloc/intro/barrel.dart';
 import '../common/extensions/build_context.extensions.dart';
 import 'home-page.dart';
 
 class IntroPage extends StatelessWidget {
+  static const String routeName = '/intro';
+
+  static MaterialPageRoute route() {
+    return MaterialPageRoute(
+      builder: (context) => IntroPage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
@@ -62,6 +71,14 @@ class IntroPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       const Text(
                           'Dit is de introductie text Lorem Ipsum is simply dummy. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Rechten',
+                        style: textTheme.headline6,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                          'Om de app te kunnen gebruik hebben wij uw locatie gegeven nodig. Wij gebruiken uw locatie gegevens alleen om u van plaats naar plaats te begeleiden.'),
                     ],
                   ),
                 ),
@@ -70,16 +87,23 @@ class IntroPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(16),
               width: double.infinity,
-              child: BlocConsumer<IntroBloc, IntroState>(
+              child: BlocConsumer<PermissionsBloc, PermissionsState>(
                 listener: (context, state) {
-                  if (state is IntroAccepted) {
+                  if (state is PermissionsGranted) {
+                    context.provider<SharedPreferencesService>().setIntroPassed(true);
                     context.navigator.pushReplacementNamed(HomePage.routeName);
                   }
                 },
                 builder: (context, state) {
                   return TSALPrimaryButton(
                     label: const Text('Ga verder'),
-                    onTap: () => context.blocProvider<IntroBloc>().add(IntroAccept()),
+                    onTap: () {
+                      if (state is PermissionsUndetermined) {
+                        context.blocProvider<PermissionsBloc>().add(PermissionsAskUser());
+                      } else {
+                        context.blocProvider<PermissionsBloc>().add(PermissionsCheck());
+                      }
+                    },
                   );
                 },
               ),

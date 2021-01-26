@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
@@ -8,10 +7,8 @@ class SharedPreferencesService {
 
   SharedPreferences _sp;
 
-  static const String introAcceptedKey = 'SP_INTRO_ACCEPTED';
-
-  static const String uninitializedErrorMessage =
-      'SharedPreferencesService not loaded yet. Await the `SharedPreferencesService.onReady` before calling any properties or methods.';
+  static const String introPassedKey = 'SP_INTRO_PASSED';
+  static const String lastLocationPermissionStatusKey = 'SP_LAST_LOCATION_PERMISSION_STATUS';
 
   SharedPreferencesService() {
     init();
@@ -22,20 +19,25 @@ class SharedPreferencesService {
     _readyCompleter.complete();
   }
 
-  bool get ready => _readyCompleter.isCompleted;
-  Future<Null> get onReady => ready ? Future.value(null) : _readyCompleter.future;
+  Future<Null> get _onReady => _readyCompleter.isCompleted ? Future.value(null) : _readyCompleter.future;
 
-  bool get introAccepted {
-    if (!ready) {
-      debugPrint(uninitializedErrorMessage);
-    }
-    return _sp.getBool(introAcceptedKey) ?? false;
+  Future<bool> getIntroPassed() async {
+    await _onReady;
+    return _sp.getBool(introPassedKey) ?? false;
   }
 
-  set introAccepted(bool value) {
-    if (!ready) {
-      debugPrint(uninitializedErrorMessage);
-    }
-    _sp.setBool(introAcceptedKey, value);
+  Future<void> setIntroPassed(bool value) async {
+    await _onReady;
+    _sp.setBool(introPassedKey, value);
+  }
+
+  Future<String> getLastLocationPermissionStatus() async {
+    await _onReady;
+    return _sp.getString(lastLocationPermissionStatusKey);
+  }
+
+  Future<void> setLastLocationPermissionStatus(String value) async {
+    await _onReady;
+    _sp.setString(lastLocationPermissionStatusKey, value);
   }
 }

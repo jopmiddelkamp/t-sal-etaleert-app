@@ -1,43 +1,49 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:tsal_etaleert/common/services/shared-preferences-service.dart';
-import 'package:tsal_etaleert/common/utils/dialog-utils.dart';
-import 'package:tsal_etaleert/pages/home-page.dart';
 
-import 'common/bloc/intro/barrel.dart';
-import 'common/extensions/build_context.extensions.dart';
 import 'common/bloc/barrel.dart';
-import 'pages/into-page.dart';
+import 'common/extensions/build_context.extensions.dart';
+import 'common/services/shared-preferences-service.dart';
+import 'common/utils/dialog-utils.dart';
+import 'constants.dart';
+import 'pages/home-page.dart';
+import 'pages/intro-page.dart';
 import 'routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      Provider<SharedPreferencesService>(create: (_) => SharedPreferencesService()),
+    ],
+    child: MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AppBloc(context.provider<SharedPreferencesService>()),
+        ),
+        BlocProvider(
+          create: (context) => PermissionsBloc(context.provider<SharedPreferencesService>()),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<SharedPreferencesService>(create: (_) => SharedPreferencesService()),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => AppBloc(context.provider<SharedPreferencesService>()),
-          ),
-        ],
-        child: _buildApp(),
-      ),
-    );
-  }
-
-  MaterialApp _buildApp() {
     return MaterialApp(
       title: '\'t Sal etaleert',
       theme: ThemeData(
@@ -46,7 +52,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocConsumer<AppBloc, AppState>(
         listener: (context, state) {
-          if (state is AppLoadingError) {
+          if (state is AppAppInitializationError) {
             DialogUtils.showErrorDialog(
               context: context,
               title: 'Whoops!',
@@ -56,14 +62,11 @@ class MyApp extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is AppLoading) {
+          if (state is AppInitializing) {
             return Center(child: CircularProgressIndicator());
           }
-          if (state is AppLoaded && !state.introAccepted) {
-            return BlocProvider(
-              create: (context) => IntroBloc(context.provider<SharedPreferencesService>()),
-              child: IntroPage(),
-            );
+          if (state is AppInitialized && !state.introAccepted) {
+            return IntroPage();
           }
           return HomePage();
         },
@@ -71,6 +74,27 @@ class MyApp extends StatelessWidget {
       builder: BotToastInit(),
       navigatorObservers: [BotToastNavigatorObserver()],
       onGenerateRoute: onGenerateRoute,
+      navigatorKey: Application.navigatorKey,
     );
+  }
+
+  @override
+  void initState() {
+    context.blocProvider<PermissionsBloc>().add(PermissionsCheck());
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      context.blocProvider<PermissionsBloc>().add(PermissionsCheck());
+    }
   }
 }
