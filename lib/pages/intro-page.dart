@@ -6,6 +6,7 @@ import '../common/bloc/permissions/barrel.dart';
 import '../common/services/shared-preferences-service.dart';
 import '../components/buttons/tsal-primary-button.dart';
 import '../common/extensions/build_context.extensions.dart';
+import '../common/ui/font-weight.dart';
 import 'home-page.dart';
 
 class IntroPage extends StatelessWidget {
@@ -41,10 +42,13 @@ class IntroPage extends StatelessWidget {
                   left: 16,
                   child: BorderedText(
                     strokeWidth: 6.0,
-                    strokeColor: Colors.black12,
+                    strokeColor: Colors.black38,
                     child: Text(
                       '\'t Sal etaleert',
-                      style: textTheme.headline6.copyWith(color: Colors.white),
+                      style: textTheme.headline6.copyWith(
+                        color: Colors.white,
+                        fontWeight: TSALFontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

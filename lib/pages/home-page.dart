@@ -4,6 +4,7 @@ import 'package:bordered_text/bordered_text.dart';
 import '../common/bloc/permissions/barrel.dart';
 import '../common/bloc/permissions/permissions_event.dart';
 import '../common/extensions/build_context.extensions.dart';
+import '../common/ui/font-weight.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -49,10 +50,13 @@ class _HomePageState extends State<HomePage> {
                   left: 16,
                   child: BorderedText(
                     strokeWidth: 6.0,
-                    strokeColor: Colors.black12,
+                    strokeColor: Colors.black38,
                     child: Text(
                       'Home',
-                      style: textTheme.headline6.copyWith(color: Colors.white),
+                      style: textTheme.headline6.copyWith(
+                        color: Colors.white,
+                        fontWeight: TSALFontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
