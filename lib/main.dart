@@ -1,39 +1,46 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'common/bloc/barrel.dart';
-import 'common/extensions/build_context.extensions.dart';
-import 'common/services/shared-preferences-service.dart';
+import 'bloc/barrel.dart';
+import 'common/extensions/build-context.extensions.dart';
+import 'repositories/category-repository.dart';
+import 'repositories/firestore/firestore-category-repository.dart';
+import 'services/shared-preferences-service.dart';
 import 'common/utils/dialog-utils.dart';
-import 'constants.dart';
-import 'pages/home-page.dart';
 import 'pages/intro-page.dart';
+import 'pages/categories-page.dart';
 import 'routes.dart';
+import 'constants.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(MultiProvider(
-    providers: [
-      Provider<SharedPreferencesService>(create: (_) => SharedPreferencesService()),
-    ],
-    child: MultiBlocProvider(
+  runApp(
+    MultiProvider(
+      // providers: repositoryProviders,
       providers: [
-        BlocProvider(
-          create: (context) => AppBloc(context.provider<SharedPreferencesService>()),
-        ),
-        BlocProvider(
-          create: (context) => PermissionsBloc(context.provider<SharedPreferencesService>()),
-        ),
+        Provider<CategoryRepository>(create: (_) => FirestoreCategoryRepository()),
       ],
-      child: MyApp(),
+      child: MultiProvider(
+        // providers: serviceProviders,
+        providers: [
+          Provider<SharedPreferencesService>(create: (_) => SharedPreferencesService()),
+        ],
+        child: MultiBlocProvider(
+          // providers: blocProviders,
+          providers: [
+            BlocProvider(create: (context) => AppBloc(context.provider<SharedPreferencesService>())),
+            BlocProvider(create: (context) => PermissionsBloc(context.provider<SharedPreferencesService>())),
+            BlocProvider(create: (context) => CategoriesBloc(context.provider<CategoryRepository>())),
+          ],
+          child: MyApp(),
+        ),
+      ),
     ),
-  ));
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -68,7 +75,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           if (state is AppInitialized && !state.introAccepted) {
             return IntroPage();
           }
-          return HomePage();
+          return CategoriesPage();
         },
       ),
       builder: BotToastInit(),

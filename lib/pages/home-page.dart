@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
 
-import '../common/bloc/permissions/barrel.dart';
-import '../common/bloc/permissions/permissions_event.dart';
-import '../common/extensions/build_context.extensions.dart';
+import '../common/extensions/build-context.extensions.dart';
 import '../common/ui/font-weight.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static const String routeName = '/home';
 
   static MaterialPageRoute route() {
     return MaterialPageRoute(
       builder: (context) => HomePage(),
     );
-  }
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    context.blocProvider<PermissionsBloc>().add(PermissionsAskUser());
-    super.initState();
   }
 
   @override
@@ -49,8 +36,8 @@ class _HomePageState extends State<HomePage> {
                   bottom: 16,
                   left: 16,
                   child: BorderedText(
-                    strokeWidth: 6.0,
-                    strokeColor: Colors.black38,
+                    strokeWidth: 5.0,
+                    strokeColor: Colors.black26,
                     child: Text(
                       'Home',
                       style: textTheme.headline6.copyWith(

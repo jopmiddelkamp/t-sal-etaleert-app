@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:tsal_etaleert/common/utils/enum-utils.dart';
 
 import '../../services/shared-preferences-service.dart';
-import '../../utils/dialog-utils.dart';
+import '../../common/utils/dialog-utils.dart';
 import 'barrel.dart';
 import 'permissions_event.dart';
 import 'permissions_state.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsal_etaleert/pages/categories-page.dart';
 
-import '../common/bloc/permissions/barrel.dart';
-import '../common/services/shared-preferences-service.dart';
+import '../bloc/permissions/barrel.dart';
+import '../services/shared-preferences-service.dart';
 import '../components/buttons/tsal-primary-button.dart';
-import '../common/extensions/build_context.extensions.dart';
+import '../common/extensions/build-context.extensions.dart';
 import '../common/ui/font-weight.dart';
-import 'home-page.dart';
 
 class IntroPage extends StatelessWidget {
   static const String routeName = '/intro';
@@ -41,8 +41,8 @@ class IntroPage extends StatelessWidget {
                   bottom: 16,
                   left: 16,
                   child: BorderedText(
-                    strokeWidth: 6.0,
-                    strokeColor: Colors.black38,
+                    strokeWidth: 5.0,
+                    strokeColor: Colors.black26,
                     child: Text(
                       '\'t Sal etaleert',
                       style: textTheme.headline6.copyWith(
@@ -95,7 +95,7 @@ class IntroPage extends StatelessWidget {
                 listener: (context, state) {
                   if (state is PermissionsGranted) {
                     context.provider<SharedPreferencesService>().setIntroPassed(true);
-                    context.navigator.pushReplacementNamed(HomePage.routeName);
+                    context.navigator.pushReplacementNamed(CategoriesPage.routeName);
                   }
                 },
                 builder: (context, state) {
