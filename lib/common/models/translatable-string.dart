@@ -10,7 +10,9 @@ class TranslatableString {
     return _data[countryCode] as String;
   }
 
-  Map<String, dynamic> toMap() => _data;
+  factory TranslatableString.fromMap(Map<String, dynamic> map) =>
+      TranslatableString(map);
 
-  factory TranslatableString.fromMap(Map<String, dynamic> map) => TranslatableString(map);
+  @override
+  String toString() => 'TranslatableString { ${_data.keys.join(',')} }';
 }

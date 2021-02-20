@@ -41,9 +41,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>'t Sal etaleert needs these permissions so it can guide you to your next destination.</string>
-    <key>NSLocationUsageDescription</key>
-    <string>'t Sal etaleert needs these permissions so it can guide you to your next destination.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>'t Sal etaleert needs access to location when open so it can guide you to your next destination..</string>
 </dict>
 </plist>

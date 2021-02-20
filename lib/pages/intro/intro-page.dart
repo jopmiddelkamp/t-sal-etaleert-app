@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsal_etaleert/pages/categories-page.dart';
 
-import '../bloc/permissions/barrel.dart';
-import '../services/shared-preferences-service.dart';
-import '../components/buttons/tsal-primary-button.dart';
-import '../common/extensions/build-context.extensions.dart';
-import '../common/ui/font-weight.dart';
+import '../../bloc/permissions/barrel.dart';
+import '../../services/shared-preferences.service.dart';
+import '../../widgets/buttons/tsal-primary-button.dart';
+import '../../common/extensions/build-context.extensions.dart';
+import '../../common/ui/font-weight.dart';
+import '../../pages/speciality-preferences/speciality-preferences.page.dart';
 
 class IntroPage extends StatelessWidget {
   static const String routeName = '/intro';
@@ -94,8 +94,11 @@ class IntroPage extends StatelessWidget {
               child: BlocConsumer<PermissionsBloc, PermissionsState>(
                 listener: (context, state) {
                   if (state is PermissionsGranted) {
-                    context.provider<SharedPreferencesService>().setIntroPassed(true);
-                    context.navigator.pushReplacementNamed(CategoriesPage.routeName);
+                    context
+                        .provider<SharedPreferencesService>()
+                        .setIntroPassed(true);
+                    context.navigator.pushReplacementNamed(
+                        SpecialityPreferencesPage.routeName);
                   }
                 },
                 builder: (context, state) {
@@ -103,9 +106,13 @@ class IntroPage extends StatelessWidget {
                     label: const Text('Ga verder'),
                     onTap: () {
                       if (state is PermissionsUndetermined) {
-                        context.blocProvider<PermissionsBloc>().add(PermissionsAskUser());
+                        context
+                            .blocProvider<PermissionsBloc>()
+                            .add(PermissionsAskUser());
                       } else {
-                        context.blocProvider<PermissionsBloc>().add(PermissionsCheck());
+                        context
+                            .blocProvider<PermissionsBloc>()
+                            .add(PermissionsCheck());
                       }
                     },
                   );

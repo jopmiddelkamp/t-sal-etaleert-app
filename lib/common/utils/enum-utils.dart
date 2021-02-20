@@ -11,7 +11,8 @@ class EnumUtils {
     if (value == null) {
       return null;
     }
-    return values.firstWhere((v) => v.toString().split('.')[1].toLowerCase() == value.toLowerCase(),
+    return values.firstWhere(
+        (v) => v.toString().split('.')[1].toLowerCase() == value.toLowerCase(),
         orElse: () => null);
   }
 }

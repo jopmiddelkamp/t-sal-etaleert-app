@@ -8,7 +8,8 @@ class SharedPreferencesService {
   SharedPreferences _sp;
 
   static const String introPassedKey = 'SP_INTRO_PASSED';
-  static const String lastLocationPermissionStatusKey = 'SP_LAST_LOCATION_PERMISSION_STATUS';
+  static const String lastLocationPermissionStatusKey =
+      'SP_LAST_LOCATION_PERMISSION_STATUS';
 
   SharedPreferencesService() {
     init();
@@ -19,7 +20,8 @@ class SharedPreferencesService {
     _readyCompleter.complete();
   }
 
-  Future<Null> get _onReady => _readyCompleter.isCompleted ? Future.value(null) : _readyCompleter.future;
+  Future<Null> get _onReady =>
+      _readyCompleter.isCompleted ? Future.value(null) : _readyCompleter.future;
 
   Future<bool> getIntroPassed() async {
     await _onReady;

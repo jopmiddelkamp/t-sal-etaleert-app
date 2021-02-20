@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../common/typedefs.dart';
+import '../../common/utils/dialog-utils.dart';
 
 class TSALSecondaryButton extends StatefulWidget {
   final Widget label;
@@ -21,19 +22,20 @@ class TSALSecondaryButton extends StatefulWidget {
 }
 
 class _TSALSecondaryButtonState extends State<TSALSecondaryButton> {
-  bool isBusy = false;
+  bool busy = false;
+  bool disposed = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return widget.icon != null
         ? OutlinedButton.icon(
-            label: !isBusy ? widget.label : _buildSpinner(theme),
-            icon: !isBusy ? widget.icon : null,
+            label: !busy ? widget.label : _buildSpinner(theme),
+            icon: !busy ? widget.icon : null,
             onPressed: widget.onTap != null ? _onTapInternal : null,
           )
         : OutlinedButton(
-            child: !isBusy ? widget.label : _buildSpinner(theme),
+            child: !busy ? widget.label : _buildSpinner(theme),
             onPressed: widget.onTap != null ? _onTapInternal : null,
           );
   }
@@ -48,15 +50,32 @@ class _TSALSecondaryButtonState extends State<TSALSecondaryButton> {
 
   Future<void> _onTapInternal() async {
     setState(() {
-      isBusy = true;
+      busy = true;
     });
     try {
       await widget.onTap();
     } on Exception catch (e) {
-      widget.onException(e);
+      debugPrint(e.toString());
+      if (widget.onException != null) {
+        widget.onException(e);
+      } else {
+        DialogUtils.showErrorDialog(
+          title: 'Onbekende foutmelding',
+          message:
+              'Er is een onverwachte foutmelding opgetreden. ${e.toString()}',
+        );
+      }
     }
-    setState(() {
-      isBusy = false;
-    });
+    if (!disposed) {
+      setState(() {
+        busy = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    disposed = true;
+    super.dispose();
   }
 }

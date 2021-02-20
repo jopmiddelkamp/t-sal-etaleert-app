@@ -3,38 +3,60 @@ import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tsal_etaleert/services/location.service.dart';
 
 import 'bloc/barrel.dart';
-import 'common/extensions/build-context.extensions.dart';
-import 'repositories/category-repository.dart';
-import 'repositories/firestore/firestore-category-repository.dart';
-import 'services/shared-preferences-service.dart';
 import 'common/utils/dialog-utils.dart';
-import 'pages/intro-page.dart';
-import 'pages/categories-page.dart';
+import 'common/extensions/build-context.extensions.dart';
+import 'pages/intro/intro-page.dart';
+import 'pages/speciality-preferences/bloc/barrel.dart';
+import 'pages/speciality-preferences/speciality-preferences.page.dart';
+import 'repositories/artist-repository.dart';
+import 'repositories/speciality-repository.dart';
+import 'repositories/firestore/firestore-artist-repository.dart';
+import 'repositories/firestore/firestore-speciality-repository.dart';
+import 'services/shared-preferences.service.dart';
+import 'theme.dart';
 import 'routes.dart';
 import 'constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
     MultiProvider(
-      // providers: repositoryProviders,
       providers: [
-        Provider<CategoryRepository>(create: (_) => FirestoreCategoryRepository()),
+        Provider<SpecialityRepository>(
+          create: (_) => FirestoreSpecialityRepository(),
+        ),
+        Provider<LocationService>(
+          create: (_) => LocationService(),
+        ),
       ],
       child: MultiProvider(
-        // providers: serviceProviders,
         providers: [
-          Provider<SharedPreferencesService>(create: (_) => SharedPreferencesService()),
+          Provider<ArtistRepository>(
+            create: (context) => FirestoreArtistRepository(
+              context.provider<SpecialityRepository>(),
+            ),
+          ),
+          Provider<SharedPreferencesService>(
+            create: (_) => SharedPreferencesService(),
+          ),
         ],
         child: MultiBlocProvider(
-          // providers: blocProviders,
           providers: [
-            BlocProvider(create: (context) => AppBloc(context.provider<SharedPreferencesService>())),
-            BlocProvider(create: (context) => PermissionsBloc(context.provider<SharedPreferencesService>())),
-            BlocProvider(create: (context) => CategoriesBloc(context.provider<CategoryRepository>())),
+            BlocProvider(
+              create: (context) => AppBloc(
+                context.provider<SharedPreferencesService>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => PermissionsBloc(
+                context.provider<SharedPreferencesService>(),
+              ),
+            ),
           ],
           child: MyApp(),
         ),
@@ -53,10 +75,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '\'t Sal etaleert',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: buildAppTheme(context),
       home: BlocConsumer<AppBloc, AppState>(
         listener: (context, state) {
           if (state is AppAppInitializationError) {
@@ -75,7 +94,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           if (state is AppInitialized && !state.introAccepted) {
             return IntroPage();
           }
-          return CategoriesPage();
+          return BlocProvider(
+            create: (context) => SpecialityPreferencesBloc(
+                context.provider<SpecialityRepository>()),
+            child: SpecialityPreferencesPage(),
+          );
         },
       ),
       builder: BotToastInit(),

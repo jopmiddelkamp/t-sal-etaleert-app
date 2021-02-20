@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
 
-import '../common/extensions/build-context.extensions.dart';
-import '../common/ui/font-weight.dart';
+import '../../common/extensions/build-context.extensions.dart';
+import '../../common/ui/font-weight.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = '/home';

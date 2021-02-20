@@ -1,3 +1,3 @@
-export 'permissions_bloc.dart';
-export 'permissions_event.dart';
-export 'permissions_state.dart';
+export 'permissions.bloc.dart';
+export 'permissions.event.dart';
+export 'permissions.state.dart';

@@ -5,11 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tsal_etaleert/common/utils/enum-utils.dart';
 
-import '../../services/shared-preferences-service.dart';
+import '../../services/shared-preferences.service.dart';
 import '../../common/utils/dialog-utils.dart';
 import 'barrel.dart';
-import 'permissions_event.dart';
-import 'permissions_state.dart';
+import 'permissions.event.dart';
+import 'permissions.state.dart';
 
 class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   final SharedPreferencesService _sharedPreferencesService;
@@ -37,8 +37,11 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
 
   Stream<PermissionsState> _init() async* {
     var status = await Permission.locationWhenInUse.status;
-    await _sharedPreferencesService.setLastLocationPermissionStatus(EnumUtils.getStringValue(status));
-    yield status.isUndetermined ? PermissionsUndetermined() : PermissionsRejected();
+    await _sharedPreferencesService
+        .setLastLocationPermissionStatus(EnumUtils.getStringValue(status));
+    yield status.isUndetermined
+        ? PermissionsUndetermined()
+        : PermissionsRejected();
   }
 
   Stream<PermissionsState> _askUser() async* {
@@ -54,7 +57,8 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
       }
 
       final result = await Permission.locationWhenInUse.request();
-      await _sharedPreferencesService.setLastLocationPermissionStatus(EnumUtils.getStringValue(result));
+      await _sharedPreferencesService
+          .setLastLocationPermissionStatus(EnumUtils.getStringValue(result));
       yield result.isGranted ? PermissionsGranted() : PermissionsRejected();
     } else {
       _check();
@@ -64,7 +68,8 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   Stream<PermissionsState> _check() async* {
     final lastLocationStatus = await _getLastLocationPermissionStatus();
     final locationStatus = await Permission.locationWhenInUse.status;
-    await _sharedPreferencesService.setLastLocationPermissionStatus(EnumUtils.getStringValue(locationStatus));
+    await _sharedPreferencesService.setLastLocationPermissionStatus(
+        EnumUtils.getStringValue(locationStatus));
     if (!lastLocationStatus.isUndetermined) {
       if (locationStatus.isGranted) {
         yield PermissionsGranted();
