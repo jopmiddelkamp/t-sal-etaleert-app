@@ -1,0 +1,1 @@
+firebase emulators:start --project="tsal-dev" --import firebase_emulators_data

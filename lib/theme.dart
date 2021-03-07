@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'common/ui/font-weight.dart';
+import 'common/ui/font_weight.dart';
 import 'theme.colors.dart';
+import 'theme.sizes.dart';
 
 // https://medium.com/flutter-community/themes-in-flutter-part-1-75f52f2334ea
 // https://medium.com/flutter-community/themes-in-flutter-part-2-706382bc32c5
@@ -17,33 +18,48 @@ ThemeData buildAppTheme(
 
   return ThemeData(
     // TODO: Could be removed soon as the PR for the fix for the app bar is already completed
-    primaryColor: kPrimaryColor,
+    primaryColor: ThemeColors.primaryColor,
     primaryColorBrightness: Brightness.dark,
 
     colorScheme: colorScheme,
 
-    scaffoldBackgroundColor: kBackgroundColor,
-    cardColor: kSurfaceColor,
-    dividerColor: kDividerColor,
+    scaffoldBackgroundColor: ThemeColors.backgroundColor,
+    cardColor: ThemeColors.surfaceColor,
+    dividerColor: ThemeColors.dividerColor,
 
     textTheme: textTheme,
     iconTheme: const IconThemeData.fallback().copyWith(
-      color: kOnSurfaceColor,
+      color: ThemeColors.onSurfaceColor,
+    ),
+    buttonTheme: ButtonThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ThemeSizes.smallBorderRadius),
+      ),
+    ),
+    cardTheme: CardTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ThemeSizes.mediumBorderRadius),
+      ),
+      shadowColor: Colors.black26,
+    ),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ThemeSizes.mediumBorderRadius),
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        primary: kAccentColor,
-        elevation: 0.0,
+        primary: ThemeColors.accentColor,
         padding: EdgeInsets.all(20.0),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.transparent,
-        primary: kOnSurfaceColor,
+        primary: ThemeColors.onSurfaceColor,
         padding: EdgeInsets.all(20.0),
         side: BorderSide(
-          color: kBorderColor,
+          color: ThemeColors.borderColor,
           width: 1.5,
         ),
       ),
@@ -51,29 +67,24 @@ ThemeData buildAppTheme(
     chipTheme: buildChipTheme(
       textTheme: textTheme,
     ),
-    appBarTheme: AppBarTheme(
-      elevation: 0.0,
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      elevation: 0,
-    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(),
   );
 }
 
 ColorScheme _buildColorScheme() {
   return ColorScheme(
-    primary: kPrimaryColor,
-    primaryVariant: kPrimaryColorDarker,
-    secondary: kAccentColor,
-    secondaryVariant: kAccentColorLighter,
-    surface: kSurfaceColor,
-    background: kBackgroundColor,
-    error: Colors.redAccent[700],
-    onPrimary: kOnPrimaryColor,
-    onSecondary: kOnPrimaryColor,
-    onSurface: kOnSurfaceColor,
-    onBackground: kOnSurfaceColor,
-    onError: kOnErrorColor,
+    primary: ThemeColors.primaryColor,
+    primaryVariant: ThemeColors.primaryColorDarker,
+    secondary: ThemeColors.accentColor,
+    secondaryVariant: ThemeColors.accentColorLighter,
+    surface: ThemeColors.onSurfaceColor,
+    background: ThemeColors.backgroundColor,
+    error: ThemeColors.errorColor,
+    onPrimary: ThemeColors.onPrimaryColor,
+    onSecondary: ThemeColors.onPrimaryColor,
+    onSurface: ThemeColors.onSurfaceColor,
+    onBackground: ThemeColors.onSurfaceColor,
+    onError: ThemeColors.onErrorColor,
     brightness: Brightness.light,
   );
 }
@@ -152,13 +163,13 @@ ChipThemeData buildChipTheme({
   double elevation,
   double pressElevation,
 }) {
-  backgroundColor = backgroundColor ?? kPrimaryColor;
+  backgroundColor = backgroundColor ?? ThemeColors.primaryColor;
   assert(backgroundColor != null);
-  disabledColor = disabledColor ?? kPrimaryColor.withOpacity(0.4);
+  disabledColor = disabledColor ?? ThemeColors.primaryColor.withOpacity(0.4);
   assert(disabledColor != null);
-  selectedColor = selectedColor ?? kPrimaryColor;
+  selectedColor = selectedColor ?? ThemeColors.primaryColor;
   assert(selectedColor != null);
-  secondarySelectedColor = secondarySelectedColor ?? kPrimaryColor;
+  secondarySelectedColor = secondarySelectedColor ?? ThemeColors.primaryColor;
   assert(secondarySelectedColor != null);
   padding =
       padding ?? const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0);
@@ -184,19 +195,19 @@ ChipThemeData buildChipTheme({
 
   return ChipThemeData(
     backgroundColor: backgroundColor,
-    deleteIconColor: deleteIconColor ?? kOnPrimaryColor,
+    deleteIconColor: deleteIconColor ?? ThemeColors.onPrimaryColor,
     disabledColor: disabledColor,
     selectedColor: selectedColor,
     secondarySelectedColor: secondarySelectedColor,
     shadowColor: shadowColor,
     selectedShadowColor: selectedShadowColor,
     showCheckmark: showCheckmark,
-    checkmarkColor: checkmarkColor ?? kOnPrimaryColor,
+    checkmarkColor: checkmarkColor ?? ThemeColors.onPrimaryColor,
     labelPadding: labelPadding ?? EdgeInsets.fromLTRB(6, 4, 6, 4),
     padding: padding,
     shape: shape,
     labelStyle: labelStyle,
-    secondaryLabelStyle: secondaryLabelStyle ?? kOnPrimaryColor,
+    secondaryLabelStyle: secondaryLabelStyle ?? ThemeColors.onPrimaryColor,
     brightness: brightness,
     elevation: elevation ?? 0,
     pressElevation: pressElevation ?? 0,
@@ -209,7 +220,7 @@ buildChipThemeTextStyle({
   double fontSize,
 }) {
   return TextStyle(
-    color: color ?? kOnPrimaryColor,
+    color: color ?? ThemeColors.onPrimaryColor,
     fontSize: fontSize ?? textTheme?.button?.fontSize ?? 16,
     fontWeight: TSALFontWeight.semiBold,
   );

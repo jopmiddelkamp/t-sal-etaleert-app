@@ -1,0 +1,1 @@
+firebase emulators:export firebase_emulators_data

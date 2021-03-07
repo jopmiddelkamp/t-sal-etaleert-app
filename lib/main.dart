@@ -1,67 +1,40 @@
+import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:provider/provider.dart';
-import 'package:tsal_etaleert/services/location.service.dart';
 
 import 'bloc/barrel.dart';
-import 'common/utils/dialog-utils.dart';
-import 'common/extensions/build-context.extensions.dart';
-import 'pages/intro/intro-page.dart';
-import 'pages/speciality-preferences/bloc/barrel.dart';
-import 'pages/speciality-preferences/speciality-preferences.page.dart';
-import 'repositories/artist-repository.dart';
-import 'repositories/speciality-repository.dart';
-import 'repositories/firestore/firestore-artist-repository.dart';
-import 'repositories/firestore/firestore-speciality-repository.dart';
-import 'services/shared-preferences.service.dart';
-import 'theme.dart';
-import 'routes.dart';
+import 'common/extensions/build_context_extensions.dart';
+import 'common/utils/dialog_utils.dart';
 import 'constants.dart';
+import 'pages/intro/intro_page.dart';
+import 'pages/speciality_preferences/bloc/barrel.dart';
+import 'pages/speciality_preferences/speciality_preferences_page.dart';
+import 'repositories/artist_repository.dart';
+import 'repositories/firestore/firestore_artist_repository.dart';
+import 'repositories/firestore/firestore_route_repository.dart';
+import 'repositories/firestore/firestore_speciality_repository.dart';
+import 'repositories/route_repository.dart';
+import 'repositories/speciality_repository.dart';
+import 'routes.dart';
+import 'services/artist_service.dart';
+import 'services/location_service.dart';
+import 'services/route_service.dart';
+import 'services/shared_preferences_service.dart';
+import 'services/speciality_service.dart';
+import 'theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  await Firebase.initializeApp();
   runApp(
-    MultiProvider(
-      providers: [
-        Provider<SpecialityRepository>(
-          create: (_) => FirestoreSpecialityRepository(),
-        ),
-        Provider<LocationService>(
-          create: (_) => LocationService(),
-        ),
-      ],
-      child: MultiProvider(
-        providers: [
-          Provider<ArtistRepository>(
-            create: (context) => FirestoreArtistRepository(
-              context.provider<SpecialityRepository>(),
-            ),
-          ),
-          Provider<SharedPreferencesService>(
-            create: (_) => SharedPreferencesService(),
-          ),
-        ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => AppBloc(
-                context.provider<SharedPreferencesService>(),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => PermissionsBloc(
-                context.provider<SharedPreferencesService>(),
-              ),
-            ),
-          ],
-          child: MyApp(),
-        ),
-      ),
-    ),
+    MyApp(),
   );
 }
 
@@ -70,48 +43,105 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+class _MyAppState extends State<MyApp>
+    with WidgetsBindingObserver, _RepositoriesMixin, _ServicesMixin {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '\'t Sal etaleert',
-      theme: buildAppTheme(context),
-      home: BlocConsumer<AppBloc, AppState>(
-        listener: (context, state) {
-          if (state is AppAppInitializationError) {
-            DialogUtils.showErrorDialog(
-              context: context,
-              title: 'Whoops!',
-              message:
-                  'Er is een fout opgetreden bij het laden van de app. Sluit de app en probeer het opnieuw. Blijf het fout gaan neem dan contact op met de eigenaar van de app.',
+    return multiProviderWrapper(
+      child: MaterialApp(
+        title: '\'t Sal etaleert',
+        theme: buildAppTheme(context),
+        home: BlocConsumer<AppBloc, AppState>(
+          listener: (context, state) {
+            if (state is AppAppInitializationError) {
+              DialogUtils.showErrorDialog(
+                context: context,
+                title: 'Whoops!',
+                message:
+                    'Er is een fout opgetreden bij het laden van de app. Sluit de app en probeer het opnieuw. Blijf het fout gaan neem dan contact op met de eigenaar van de app.',
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is AppInitializing) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is AppInitialized && !state.introAccepted) {
+              return IntroPage();
+            }
+            return BlocProvider(
+              create: (context) => SpecialityPreferencesPageBloc(
+                context.provider<SpecialityService>(),
+              ),
+              child: SpecialityPreferencesPage(),
             );
-          }
-        },
-        builder: (context, state) {
-          if (state is AppInitializing) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is AppInitialized && !state.introAccepted) {
-            return IntroPage();
-          }
-          return BlocProvider(
-            create: (context) => SpecialityPreferencesBloc(
-                context.provider<SpecialityRepository>()),
-            child: SpecialityPreferencesPage(),
-          );
-        },
+          },
+        ),
+        builder: BotToastInit(),
+        navigatorObservers: [
+          BotToastNavigatorObserver(),
+        ],
+        onGenerateRoute: onGenerateRoute,
+        navigatorKey: Application.navigatorKey,
       ),
-      builder: BotToastInit(),
-      navigatorObservers: [BotToastNavigatorObserver()],
-      onGenerateRoute: onGenerateRoute,
-      navigatorKey: Application.navigatorKey,
+    );
+  }
+
+  Widget multiProviderWrapper({
+    Widget child,
+  }) {
+    return MultiProvider(
+      providers: [
+        Provider<ArtistService>(
+          create: (_) => _artistService,
+        ),
+        Provider<LocationService>(
+          create: (_) => _locationService,
+        ),
+        Provider<RouteService>(
+          create: (_) => _routeService,
+        ),
+        Provider<SharedPreferencesService>(
+          create: (_) => _sharedPreferencesService,
+        ),
+        Provider<SpecialityService>(
+          create: (_) => _specialityService,
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AppBloc(
+              context.provider<SharedPreferencesService>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) {
+              final bloc = PermissionsBloc(
+                context.provider<SharedPreferencesService>(),
+              );
+              bloc.add(PermissionsCheck());
+              return bloc;
+            },
+          ),
+        ],
+        child: child,
+      ),
     );
   }
 
   @override
   void initState() {
-    context.blocProvider<PermissionsBloc>().add(PermissionsCheck());
+    initializeRepositories();
+    initializeServices();
+
+    debugPrint('### DEVICE_ID ###');
+    PlatformDeviceId.getDeviceId.then((value) => debugPrint(value));
+
     WidgetsBinding.instance.addObserver(this);
+
     super.initState();
   }
 
@@ -126,5 +156,57 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       context.blocProvider<PermissionsBloc>().add(PermissionsCheck());
     }
+  }
+
+  @override
+  void initializeRepositories() {
+    _artistRepository = FirestoreArtistRepository();
+    _routeRepository = FirestoreRouteRepository();
+    _specialityRepository = FirestoreSpecialityRepository();
+    super.initializeRepositories();
+  }
+
+  @override
+  void initializeServices() {
+    _artistService = ArtistService(
+      _artistRepository,
+    );
+    _locationService = LocationService();
+    _routeService = RouteService(
+      _routeRepository,
+    );
+    _sharedPreferencesService = SharedPreferencesService();
+    _specialityService = SpecialityService(
+      _specialityRepository,
+    );
+    super.initializeRepositories();
+  }
+}
+
+mixin _RepositoriesMixin {
+  ArtistRepository _artistRepository;
+  RouteRepository _routeRepository;
+  SpecialityRepository _specialityRepository;
+
+  void initializeRepositories() {
+    assert(_artistRepository != null);
+    assert(_routeRepository != null);
+    assert(_specialityRepository != null);
+  }
+}
+
+mixin _ServicesMixin {
+  ArtistService _artistService;
+  LocationService _locationService;
+  RouteService _routeService;
+  SharedPreferencesService _sharedPreferencesService;
+  SpecialityService _specialityService;
+
+  void initializeServices() {
+    assert(_artistService != null);
+    assert(_locationService != null);
+    assert(_routeService != null);
+    assert(_sharedPreferencesService != null);
+    assert(_specialityService != null);
   }
 }
