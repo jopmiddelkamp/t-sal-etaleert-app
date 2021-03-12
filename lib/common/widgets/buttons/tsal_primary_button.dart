@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../common/typedefs.dart';
-import '../../common/utils/dialog_utils.dart';
+import '../../typedefs.dart';
+import '../../utils/dialog_utils.dart';
 
 class TSALPrimaryButton extends StatefulWidget {
   final Widget label;

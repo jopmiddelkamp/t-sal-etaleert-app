@@ -1,4 +1,4 @@
-import '../common/models/artist_model.dart';
+import '../models/artist_model.dart';
 import '../repositories/artist_repository.dart';
 import 'service_base.dart';
 

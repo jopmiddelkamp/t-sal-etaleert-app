@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsal_etaleert/common/models/route_stop_model.dart';
-import 'package:tsal_etaleert/services/route_service.dart';
 
 import '../../../common/models/artist_model.dart';
+import '../../../common/models/route_stop_model.dart';
+import '../../../common/services/route_service.dart';
 import 'barrel.dart';
 
 class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {

@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
-import '../common/models/location_model.dart';
+import '../models/location_model.dart';
 import 'service_base.dart';
 
 class LocationService extends ServiceBase {

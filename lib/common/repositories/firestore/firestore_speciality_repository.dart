@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../common/models/speciality_model.dart';
+import '../../models/speciality_model.dart';
 import '../speciality_repository.dart';
 
 class FirestoreSpecialityRepository implements SpecialityRepository {

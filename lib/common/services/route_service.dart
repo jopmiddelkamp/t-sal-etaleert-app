@@ -1,7 +1,7 @@
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:tsal_etaleert/common/models/route_stop_model.dart';
 
-import '../common/models/route_model.dart';
+import '../models/route_model.dart';
+import '../models/route_stop_model.dart';
 import '../repositories/route_repository.dart';
 import 'service_base.dart';
 

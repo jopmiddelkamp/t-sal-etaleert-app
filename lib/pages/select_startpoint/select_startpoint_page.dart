@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsal_etaleert/pages/route/route_page.dart';
 
 import '../../common/extensions/barrel.dart';
+import '../../common/services/artist_service.dart';
+import '../../common/services/location_service.dart';
+import '../../common/widgets/loading_indicators/circle_loading_indicator.dart';
 import '../../pages/select_startpoint/widgets/select_artist_card.dart';
-import '../../services/artist_service.dart';
-import '../../services/location_service.dart';
-import '../../widgets/loading_indicators/circle_loading_indicator.dart';
+import '../route/route_page.dart';
 import 'bloc/barrel.dart';
 
 class SelectStartpointPage extends StatelessWidget {

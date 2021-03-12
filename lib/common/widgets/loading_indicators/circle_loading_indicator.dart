@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../common/extensions/build_context_extensions.dart';
+import '../../extensions/build_context_extensions.dart';
 
 class TSALCircleLoadingIndicator extends StatelessWidget {
   const TSALCircleLoadingIndicator({Key key}) : super(key: key);

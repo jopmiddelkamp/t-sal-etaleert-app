@@ -1,4 +1,4 @@
-import '../common/models/route_model.dart';
+import '../models/route_model.dart';
 
 abstract class RouteRepository {
   Future createRoute(

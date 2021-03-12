@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/extensions/barrel.dart';
-import '../../services/speciality_service.dart';
-import '../../widgets/buttons/tsal_primary_button.dart';
-import '../../widgets/list_tiles/list_tile.dart';
-import '../../widgets/loading_indicators/circle_loading_indicator.dart';
+import '../../common/services/speciality_service.dart';
+import '../../common/widgets/buttons/tsal_primary_button.dart';
+import '../../common/widgets/list_tiles/list_tile.dart';
+import '../../common/widgets/loading_indicators/circle_loading_indicator.dart';
 import '../select_startpoint/select_startpoint_page.dart';
 import 'bloc/barrel.dart';
 

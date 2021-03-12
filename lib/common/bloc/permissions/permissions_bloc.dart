@@ -4,8 +4,8 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../common/utils/dialog_utils.dart';
-import '../../common/utils/enum_utils.dart';
+import '../../../common/utils/dialog_utils.dart';
+import '../../../common/utils/enum_utils.dart';
 import '../../services/shared_preferences_service.dart';
 import 'barrel.dart';
 import 'permissions_event.dart';

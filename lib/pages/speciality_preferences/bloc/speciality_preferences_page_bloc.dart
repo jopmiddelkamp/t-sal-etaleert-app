@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../services/speciality_service.dart';
+import '../../../common/services/speciality_service.dart';
 import 'barrel.dart';
 
 class SpecialityPreferencesPageBloc extends Bloc<SpecialityPreferencesPageEvent,

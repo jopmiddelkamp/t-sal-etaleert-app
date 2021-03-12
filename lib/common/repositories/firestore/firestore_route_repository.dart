@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../common/models/route_model.dart';
+import '../../models/route_model.dart';
 import '../route_repository.dart';
 
 class FirestoreRouteRepository implements RouteRepository {

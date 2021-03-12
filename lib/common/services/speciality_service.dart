@@ -1,4 +1,4 @@
-import '../common/models/speciality_model.dart';
+import '../models/speciality_model.dart';
 import '../repositories/speciality_repository.dart';
 import 'service_base.dart';
 

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../common/models/artist_model.dart';
+import '../../models/artist_model.dart';
 import '../artist_repository.dart';
 
 class FirestoreArtistRepository implements ArtistRepository {

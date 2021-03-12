@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsal_etaleert/widgets/loading_indicators/circle_loading_indicator.dart';
 
 import '../../common/extensions/barrel.dart';
 import '../../common/models/artist_model.dart';
-import '../../services/route_service.dart';
+import '../../common/services/route_service.dart';
+import '../../common/widgets/loading_indicators/circle_loading_indicator.dart';
 import 'bloc/barrel.dart';
 
 class RoutePage extends StatelessWidget {

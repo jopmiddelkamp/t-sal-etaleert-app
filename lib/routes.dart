@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:tsal_etaleert/pages/route/route_page.dart';
 
 import 'pages/home/home_page.dart';
 import 'pages/intro/intro_page.dart';
+import 'pages/route/route_page.dart';
 import 'pages/select_startpoint/select_startpoint_page.dart';
 import 'pages/speciality_preferences/speciality_preferences_page.dart';
 

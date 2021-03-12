@@ -6,25 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:provider/provider.dart';
 
-import 'bloc/barrel.dart';
+import 'common/bloc/barrel.dart';
 import 'common/extensions/build_context_extensions.dart';
+import 'common/repositories/barrel.dart';
+import 'common/repositories/firestore/barrel.dart';
+import 'common/services/barrel.dart';
 import 'common/utils/dialog_utils.dart';
 import 'constants.dart';
 import 'pages/intro/intro_page.dart';
 import 'pages/speciality_preferences/bloc/barrel.dart';
 import 'pages/speciality_preferences/speciality_preferences_page.dart';
-import 'repositories/artist_repository.dart';
-import 'repositories/firestore/firestore_artist_repository.dart';
-import 'repositories/firestore/firestore_route_repository.dart';
-import 'repositories/firestore/firestore_speciality_repository.dart';
-import 'repositories/route_repository.dart';
-import 'repositories/speciality_repository.dart';
 import 'routes.dart';
-import 'services/artist_service.dart';
-import 'services/location_service.dart';
-import 'services/route_service.dart';
-import 'services/shared_preferences_service.dart';
-import 'services/speciality_service.dart';
 import 'theme.dart';
 
 void main() async {

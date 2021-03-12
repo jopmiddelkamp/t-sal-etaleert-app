@@ -2,11 +2,11 @@ import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/permissions/barrel.dart';
+import '../../common/bloc/permissions/barrel.dart';
 import '../../common/extensions/build_context_extensions.dart';
+import '../../common/services/shared_preferences_service.dart';
 import '../../common/ui/font_weight.dart';
-import '../../services/shared_preferences_service.dart';
-import '../../widgets/buttons/tsal_primary_button.dart';
+import '../../common/widgets/buttons/tsal_primary_button.dart';
 import '../speciality_preferences/speciality_preferences_page.dart';
 
 class IntroPage extends StatelessWidget {
