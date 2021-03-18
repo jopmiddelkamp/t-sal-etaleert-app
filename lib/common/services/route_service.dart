@@ -12,15 +12,14 @@ class RouteService extends ServiceBase {
     this._routeRepository,
   );
 
-  Future createRoute(
+  Future<void> createRoute(
     List<RouteStopModel> stops,
   ) async {
-    await _routeRepository.createRoute(
-      RouteModel(
-        id: await PlatformDeviceId.getDeviceId,
-        stops: stops,
-      ),
+    final data = RouteModel(
+      id: await PlatformDeviceId.getDeviceId,
+      stops: stops,
     );
+    await _routeRepository.createRoute(data);
   }
 
   Stream<RouteModel> getRoute() async* {

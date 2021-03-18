@@ -84,7 +84,7 @@ class SelectStartpointPageBloc
   }
 
   @override
-  Future close() {
+  Future<void> close() {
     _artistsStreamSub?.cancel();
     return super.close();
   }

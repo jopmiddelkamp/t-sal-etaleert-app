@@ -15,6 +15,15 @@ class LocationModel extends Equatable {
     this.longitude,
   });
 
+  factory LocationModel.fromMap(
+    Map<String, dynamic> map,
+  ) {
+    return LocationModel(
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+    );
+  }
+
   factory LocationModel.fromGeoPoint(
     GeoPoint geoPoint,
   ) {
@@ -31,6 +40,20 @@ class LocationModel extends Equatable {
       latitude: position.latitude,
       longitude: position.longitude,
     );
+  }
+
+  factory LocationModel.fromDynamic(
+    dynamic object,
+  ) {
+    if (object is Map) {
+      return LocationModel.fromMap(object);
+    } else if (object is GeoPoint) {
+      return LocationModel.fromGeoPoint(object);
+    } else if (object is Position) {
+      return LocationModel.fromPosition(object);
+    }
+    throw Exception(
+        'Unsupported source object type provided ${object.runtimeType}');
   }
 
   @override

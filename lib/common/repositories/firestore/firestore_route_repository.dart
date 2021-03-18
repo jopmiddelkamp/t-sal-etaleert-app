@@ -10,7 +10,7 @@ class FirestoreRouteRepository implements RouteRepository {
       : _routeCollection = FirebaseFirestore.instance.collection('routes');
 
   @override
-  Future createRoute(
+  Future<void> createRoute(
     RouteModel data,
   ) async {
     await _routeCollection.doc(data.id).set(data.toJson());

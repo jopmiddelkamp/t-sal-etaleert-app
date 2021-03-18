@@ -65,12 +65,17 @@ class SelectArtistCard extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: artist.specialities.length,
         itemBuilder: (context, index) {
+          final key = artist.specialities.keys.elementAt(index);
+          final speciality = artist.specialities[key];
           return Padding(
             padding: index > 0
                 ? const EdgeInsets.only(left: 8)
                 : const EdgeInsets.all(0),
             child: _buildSpecialitiesListItem(
-                theme, height, artist.specialities[index]),
+              theme,
+              height,
+              speciality,
+            ),
           );
         },
       ),

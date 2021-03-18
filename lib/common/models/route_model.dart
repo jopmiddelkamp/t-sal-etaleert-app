@@ -19,8 +19,7 @@ class RouteModel {
       stops.map((e) => e.artist.id).toList(growable: false);
 
   List<String> get specialityIds => stops
-      .expand((e) => e.artist.specialities)
-      .map((e) => e.id)
+      .expand((e) => e.artist.specialities.keys)
       .toSet()
       .toList(growable: false);
 

@@ -10,8 +10,7 @@ import 'barrel.dart';
 class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
   final RouteService _routeService;
 
-  StreamSubscription _specialitiesStreamSub;
-  StreamSubscription _artistsStreamSub;
+  StreamSubscription _routeStreamSub;
 
   RoutePageBloc.createRoute({
     RouteService routeService,
@@ -43,7 +42,9 @@ class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
     if (event is RouteCreateRoute) {
       yield* _onCreateRoute(event);
     } else if (event is RouteOpenRoute) {
-      yield* _onOpenRoute();
+      yield* _onOpenRoute(event);
+    } else if (event is RouteUpdateRoute) {
+      yield* _onUpdateRoute(event);
     } else if (event is RouteScanQr) {
       yield* _onQrScanned(event);
     } else {
@@ -54,6 +55,7 @@ class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
   Stream<RoutePageState> _onCreateRoute(
     RouteCreateRoute event,
   ) async* {
+    _routeStreamSub?.cancel();
     await _routeService.createRoute([
       RouteStopModel(
         artist: event.startingArtist,
@@ -61,22 +63,42 @@ class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
       ...event.artists.where((e) {
         return e.id != event.startingArtistId;
       }).map((e) {
-        return RouteStopModel(artist: e);
+        return RouteStopModel(
+          artist: e,
+        );
       }).toList(growable: false),
     ]);
     add(RouteOpenRoute());
   }
 
-  Stream<RoutePageState> _onOpenRoute() async* {}
+  Stream<RoutePageState> _onOpenRoute(
+    RouteOpenRoute event,
+  ) async* {
+    _routeStreamSub?.cancel();
+    _routeStreamSub = _routeService.getRoute().listen((route) {
+      final event = RouteUpdateRoute(
+        route,
+      );
+      add(event);
+    });
+  }
+
+  Stream<RoutePageState> _onUpdateRoute(
+    RouteUpdateRoute event,
+  ) async* {
+    final state = RouteUpdated(
+      stops: event.route.stops,
+    );
+    yield state;
+  }
 
   Stream<RoutePageState> _onQrScanned(
     RouteScanQr event,
   ) async* {}
 
   @override
-  Future close() {
-    _specialitiesStreamSub?.cancel();
-    _artistsStreamSub?.cancel();
+  Future<void> close() {
+    _routeStreamSub?.cancel();
     return super.close();
   }
 }

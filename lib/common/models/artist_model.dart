@@ -12,7 +12,7 @@ part 'artist_model.g.dart';
 class ArtistModel extends Equatable {
   final String id;
   final ProfileModel profile;
-  final List<SpecialityModel> specialities;
+  final Map<String, SpecialityModel> specialities;
   final LocationModel location;
 
   const ArtistModel({
@@ -37,19 +37,27 @@ class ArtistModel extends Equatable {
     String id,
     Map<String, dynamic> map,
   }) {
-    final specialities = <SpecialityModel>[];
-    final specialitiesMap = (map['specialities'] as Map);
-    if (specialitiesMap != null) {
-      specialitiesMap.forEach((key, value) {
-        final speciality = SpecialityModel.fromMap(key, value);
-        specialities.add(speciality);
+    final specialities = <String, SpecialityModel>{};
+    final specialitiesList = (map['specialities'] as Map);
+    if (specialitiesList != null) {
+      specialitiesList.forEach((key, value) {
+        final specialityMap = value as Map;
+        final speciality = SpecialityModel.fromMap(
+          key,
+          specialityMap,
+        );
+        specialities[key] = speciality;
       });
     }
     return ArtistModel(
       id: id,
-      profile: ProfileModel.fromMap(map['profile']),
+      profile: ProfileModel.fromMap(
+        map['profile'],
+      ),
       specialities: specialities,
-      location: LocationModel.fromGeoPoint(map['location']),
+      location: LocationModel.fromDynamic(
+        map['location'],
+      ),
     );
   }
 

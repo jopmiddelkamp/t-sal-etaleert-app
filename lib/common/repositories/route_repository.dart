@@ -1,7 +1,7 @@
 import '../models/route_model.dart';
 
 abstract class RouteRepository {
-  Future createRoute(
+  Future<void> createRoute(
     RouteModel data,
   );
 

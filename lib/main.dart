@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +27,16 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   await Firebase.initializeApp();
-  runApp(
-    MyApp(),
-  );
+  // To handle all handled and unhandled exceptions.
+  // https://levelup.gitconnected.com/three-things-you-didnt-know-about-exception-handling-in-dart-and-flutter-d021e1458f08
+  runZonedGuarded(() {
+    runApp(
+      MyApp(),
+    );
+  }, (e, s) {
+    print(
+        'Synchronous or Asynchronous Exception: $e (stack $s) was caught in our custom zone - redirect to Firebase.');
+  });
 }
 
 class MyApp extends StatefulWidget {
