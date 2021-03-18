@@ -36,16 +36,19 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   }
 
   Stream<PermissionsState> _init() async* {
-    var status = await Permission.locationWhenInUse.status;
-    await _sharedPreferencesService
-        .setLastLocationPermissionStatus(EnumUtils.getStringValue(status));
-    yield status.isUndetermined
-        ? PermissionsUndetermined()
-        : PermissionsRejected();
+    final lastStatusString =
+        await _sharedPreferencesService.getLastLocationPermissionStatus();
+    if (lastStatusString == null) {
+      yield PermissionsUndetermined();
+    } else {
+      yield* _check();
+    }
   }
 
   Stream<PermissionsState> _askUser() async* {
-    if (await _getLastLocationPermissionStatus().isUndetermined) {
+    final lastLocationStatus = await _getLastLocationPermissionStatus();
+    final isUndetermined = lastLocationStatus == null;
+    if (isUndetermined) {
       // You can can also directly ask the permission about its status.
       if (await Permission.locationWhenInUse.isRestricted) {
         // The OS restricts access, for example because of parental controls.
@@ -67,10 +70,11 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
 
   Stream<PermissionsState> _check() async* {
     final lastLocationStatus = await _getLastLocationPermissionStatus();
+    final isUndetermined = lastLocationStatus == null;
     final locationStatus = await Permission.locationWhenInUse.status;
     await _sharedPreferencesService.setLastLocationPermissionStatus(
         EnumUtils.getStringValue(locationStatus));
-    if (!lastLocationStatus.isUndetermined) {
+    if (!isUndetermined) {
       if (locationStatus.isGranted) {
         yield PermissionsGranted();
       } else {
@@ -97,10 +101,15 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   }
 
   Future<PermissionStatus> _getLastLocationPermissionStatus() async {
+    final statusString =
+        await _sharedPreferencesService.getLastLocationPermissionStatus();
+    if (statusString == null) {
+      return null;
+    }
     final status = EnumUtils.enumFromString(
       PermissionStatus.values,
-      await _sharedPreferencesService.getLastLocationPermissionStatus(),
+      statusString,
     );
-    return status != null ? status : PermissionStatus.undetermined;
+    return status;
   }
 }

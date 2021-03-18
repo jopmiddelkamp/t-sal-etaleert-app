@@ -1,4 +1,3 @@
-import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,15 +39,11 @@ class IntroPage extends StatelessWidget {
                 Positioned(
                   bottom: 16,
                   left: 16,
-                  child: BorderedText(
-                    strokeWidth: 5.0,
-                    strokeColor: Colors.black26,
-                    child: Text(
-                      '\'t Sal etaleert',
-                      style: textTheme.headline6.copyWith(
-                        color: Colors.white,
-                        fontWeight: TSALFontWeight.bold,
-                      ),
+                  child: Text(
+                    '\'t Sal etaleert',
+                    style: textTheme.headline6.copyWith(
+                      color: Colors.white,
+                      fontWeight: TSALFontWeight.bold,
                     ),
                   ),
                 ),

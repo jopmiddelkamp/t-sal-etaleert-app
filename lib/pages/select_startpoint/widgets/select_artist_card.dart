@@ -1,4 +1,3 @@
-import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -109,18 +108,14 @@ class SelectArtistCard extends StatelessWidget {
   Widget _buildFullName(
     BuildContext context,
   ) {
-    return BorderedText(
-      strokeWidth: 5.0,
-      strokeColor: Colors.black26,
-      child: Text(
-        artist.profile.fullName,
-        style: context.textTheme.headline6.copyWith(
-          color: Colors.white,
-          fontWeight: TSALFontWeight.bold,
-        ),
-        maxLines: 2,
-        overflow: TextOverflow.fade,
+    return Text(
+      artist.profile.fullName,
+      style: context.textTheme.headline6.copyWith(
+        color: Colors.white,
+        fontWeight: TSALFontWeight.bold,
       ),
+      maxLines: 2,
+      overflow: TextOverflow.fade,
     );
   }
 
