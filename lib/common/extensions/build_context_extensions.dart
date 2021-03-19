@@ -10,7 +10,6 @@ extension BuildContextExtensions on BuildContext {
   AppBarTheme get appBarTheme => Theme.of(this).appBarTheme;
   NavigatorState get navigator => Navigator.of(this);
   T provider<T>({bool listen = false}) => Provider.of<T>(this, listen: listen);
-  // TODO make object nullable
-  T blocProvider<T extends BlocBase<Object /*?*/ >>({bool listen = false}) =>
+  T blocProvider<T extends BlocBase<Object?>>({bool listen = false}) =>
       BlocProvider.of<T>(this, listen: listen);
 }

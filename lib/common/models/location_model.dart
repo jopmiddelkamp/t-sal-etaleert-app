@@ -11,8 +11,8 @@ class LocationModel extends Equatable {
   final double longitude;
 
   const LocationModel({
-    this.latitude,
-    this.longitude,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory LocationModel.fromMap(
@@ -46,7 +46,7 @@ class LocationModel extends Equatable {
     dynamic object,
   ) {
     if (object is Map) {
-      return LocationModel.fromMap(object);
+      return LocationModel.fromMap(object as Map<String, dynamic>);
     } else if (object is GeoPoint) {
       return LocationModel.fromGeoPoint(object);
     } else if (object is Position) {

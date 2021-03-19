@@ -9,12 +9,11 @@ class SpecialityPreferencesPageBloc extends Bloc<SpecialityPreferencesPageEvent,
     SpecialityPreferencesPageState> {
   final SpecialityService _specialityService;
 
-  StreamSubscription _specialitiesStreamSub;
+  late StreamSubscription _specialitiesStreamSub;
 
   SpecialityPreferencesPageBloc(
     this._specialityService,
-  )   : assert(_specialityService != null),
-        super(SpecialityPreferencesInitializing()) {
+  ) : super(SpecialityPreferencesInitializing()) {
     add(SpecialityPreferencesInitialize());
   }
 
@@ -61,7 +60,8 @@ class SpecialityPreferencesPageBloc extends Bloc<SpecialityPreferencesPageEvent,
       return state;
     }
     final stateCasted = (state as SpecialityPreferencesUpdated);
-    final selectedSpecialityIds = stateCasted.selectedSpecialityIds.toList();
+    final List<String?> selectedSpecialityIds =
+        stateCasted.selectedSpecialityIds.toList();
     final index = selectedSpecialityIds.indexOf(event.speciality.id);
     if (index > -1) {
       selectedSpecialityIds.removeAt(index);
@@ -69,13 +69,13 @@ class SpecialityPreferencesPageBloc extends Bloc<SpecialityPreferencesPageEvent,
       selectedSpecialityIds.add(event.speciality.id);
     }
     return stateCasted.copyWith(
-      selectedSpecialityIds: selectedSpecialityIds,
+      selectedSpecialityIds: selectedSpecialityIds as List<String>?,
     );
   }
 
   @override
   Future<void> close() {
-    _specialitiesStreamSub?.cancel();
+    _specialitiesStreamSub.cancel();
     return super.close();
   }
 }

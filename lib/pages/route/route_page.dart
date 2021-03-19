@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsal_etaleert/common/ui/font_weight.dart';
 
 import '../../common/extensions/barrel.dart';
 import '../../common/models/artist_model.dart';
 import '../../common/services/route_service.dart';
+import '../../common/ui/font_weight.dart';
 import '../../common/widgets/loading_indicators/circle_loading_indicator.dart';
 import 'bloc/barrel.dart';
 
 class RoutePage extends StatelessWidget {
   static const String routeName = '/route';
 
-  final RoutePageArguments arguments;
-
   const RoutePage({
-    Key key,
-    this.arguments,
+    Key? key,
   }) : super(key: key);
 
   static MaterialPageRoute route(
     RoutePageArguments arguments,
   ) {
     return MaterialPageRoute(
-      builder: (context) => BlocProvider(
+      builder: (context) => BlocProvider<RoutePageBloc>(
         create: (context) {
           if (arguments is CreateRoutePageArguments) {
             return RoutePageBloc.createRoute(
@@ -30,13 +27,10 @@ class RoutePage extends StatelessWidget {
               artists: arguments.artists,
               startingArtistId: arguments.startingArtistId,
             );
-          } else if (arguments is OpenExistingRoutePageArguments) {
-            return RoutePageBloc.openRoute(
-              routeService: context.provider<RouteService>(),
-            );
           }
-          // alert message
-          Navigator.of(context).pop();
+          return RoutePageBloc.openRoute(
+            routeService: context.provider<RouteService>(),
+          );
         },
         child: RoutePage(),
       ),
@@ -58,7 +52,7 @@ class RoutePage extends StatelessWidget {
             if (currentState is! RouteUpdated) {
               return TSALCircleLoadingIndicator();
             }
-            final state = currentState as RouteUpdated;
+            final state = currentState;
             return LayoutBuilder(
               builder: (context, constraints) {
                 return Column(
@@ -106,9 +100,9 @@ class RoutePage extends StatelessWidget {
 
   Widget _getRouteIndicator(
     BuildContext context, {
-    @required int count,
-    @required int index,
-    @required bool active,
+    required int count,
+    required int index,
+    required bool active,
   }) {
     final dark = context.theme.colorScheme.secondary;
     final light = context.theme.colorScheme.secondaryVariant;
@@ -161,7 +155,7 @@ class RoutePage extends StatelessWidget {
                 child: Center(
                   child: Text(
                     (index + 1).toString(),
-                    style: context.textTheme.bodyText2.copyWith(
+                    style: context.textTheme.bodyText2!.copyWith(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: width / 1.75,
                       fontWeight: TSALFontWeight.bold,
@@ -186,8 +180,8 @@ class CreateRoutePageArguments extends RoutePageArguments {
   final String startingArtistId;
 
   const CreateRoutePageArguments({
-    @required this.artists,
-    @required this.startingArtistId,
+    required this.artists,
+    required this.startingArtistId,
   });
 }
 

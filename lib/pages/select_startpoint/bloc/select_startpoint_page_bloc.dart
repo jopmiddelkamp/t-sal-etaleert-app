@@ -12,16 +12,13 @@ class SelectStartpointPageBloc
   final ArtistService _artistService;
   final LocationService _locationService;
 
-  StreamSubscription _artistsStreamSub;
+  StreamSubscription? _artistsStreamSub;
 
   SelectStartpointPageBloc({
-    ArtistService artistService,
-    LocationService locationService,
-    List<String> selectedSpecialityIds,
-  })  : assert(artistService != null),
-        assert(locationService != null),
-        assert(selectedSpecialityIds != null),
-        _artistService = artistService,
+    required ArtistService artistService,
+    required LocationService locationService,
+    required List<String> selectedSpecialityIds,
+  })   : _artistService = artistService,
         _locationService = locationService,
         super(SelectStartpointInitializing()) {
     add(SelectStartpointInitialize(

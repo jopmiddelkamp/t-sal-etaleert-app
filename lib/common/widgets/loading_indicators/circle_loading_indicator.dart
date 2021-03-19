@@ -4,14 +4,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../extensions/build_context_extensions.dart';
 
 class TSALCircleLoadingIndicator extends StatelessWidget {
-  const TSALCircleLoadingIndicator({Key key}) : super(key: key);
+  const TSALCircleLoadingIndicator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SpinKitRing(
       color: context.theme.colorScheme.onBackground.withOpacity(0.25),
       lineWidth: 2,
-      size: context.textTheme.button.fontSize ?? 14,
+      size: context.textTheme.button!.fontSize ?? 14,
     );
   }
 }

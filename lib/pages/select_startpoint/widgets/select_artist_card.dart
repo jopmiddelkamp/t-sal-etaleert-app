@@ -9,8 +9,8 @@ import '../bloc/barrel.dart';
 
 class SelectArtistCard extends StatelessWidget {
   const SelectArtistCard({
-    Key key,
-    @required this.artist,
+    Key? key,
+    required this.artist,
   }) : super(key: key);
 
   final ArtistModel artist;
@@ -35,15 +35,19 @@ class SelectArtistCard extends StatelessWidget {
               child: _buildPersonalImage(),
             ),
             Positioned(
-              bottom: 16,
-              left: 16,
-              right: 16,
-              child: Column(
-                children: [
-                  _buildFullName(context),
-                  const SizedBox(height: 16),
-                  _buildSpecialitiesList(theme),
-                ],
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.black26,
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    _buildFullName(context),
+                    const SizedBox(height: 8),
+                    _buildSpecialitiesList(theme),
+                  ],
+                ),
               ),
             ),
           ],
@@ -65,7 +69,7 @@ class SelectArtistCard extends StatelessWidget {
         itemCount: artist.specialities.length,
         itemBuilder: (context, index) {
           final key = artist.specialities.keys.elementAt(index);
-          final speciality = artist.specialities[key];
+          final speciality = artist.specialities[key]!;
           return Padding(
             padding: index > 0
                 ? const EdgeInsets.only(left: 8)
@@ -96,10 +100,10 @@ class SelectArtistCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(height / 2),
       ),
       child: Text(
-        speciality.name.getValue().toUpperCase(),
-        style: theme.textTheme.bodyText2.copyWith(
+        speciality.name.getValue()!.toUpperCase(),
+        style: theme.textTheme.bodyText2!.copyWith(
           color: Colors.white,
-          fontSize: theme.textTheme.bodyText2.fontSize * 0.75,
+          fontSize: theme.textTheme.bodyText2!.fontSize! * 0.75,
         ),
       ),
     );
@@ -110,7 +114,7 @@ class SelectArtistCard extends StatelessWidget {
   ) {
     return Text(
       artist.profile.fullName,
-      style: context.textTheme.headline6.copyWith(
+      style: context.textTheme.headline6!.copyWith(
         color: Colors.white,
         fontWeight: TSALFontWeight.bold,
       ),
@@ -123,7 +127,7 @@ class SelectArtistCard extends StatelessWidget {
     if (artist.profile.personalImage?.isNotEmpty == true) {
       return CachedNetworkImage(
         fit: BoxFit.cover,
-        imageUrl: artist.profile.personalImage,
+        imageUrl: artist.profile.personalImage!,
       );
     }
     return Image.asset(

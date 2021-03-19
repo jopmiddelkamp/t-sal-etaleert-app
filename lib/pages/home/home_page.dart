@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                   left: 16,
                   child: Text(
                     'Home',
-                    style: textTheme.headline6.copyWith(
+                    style: textTheme.headline6!.copyWith(
                       color: Colors.white,
                       fontWeight: TSALFontWeight.bold,
                     ),

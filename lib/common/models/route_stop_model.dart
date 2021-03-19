@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'artist_model.dart';
@@ -11,7 +10,7 @@ class RouteStopModel {
   final bool completed;
 
   const RouteStopModel({
-    @required this.artist,
+    required this.artist,
     this.completed = false,
   });
 
@@ -28,8 +27,8 @@ class RouteStopModel {
   }
 
   RouteStopModel copyWith({
-    ArtistModel artist,
-    bool completed,
+    ArtistModel? artist,
+    bool? completed,
   }) {
     return RouteStopModel(
       artist: artist ?? this.artist,

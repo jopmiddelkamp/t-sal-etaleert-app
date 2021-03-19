@@ -6,13 +6,13 @@ import '../../utils/dialog_utils.dart';
 
 class TSALPrimaryButton extends StatefulWidget {
   final Widget label;
-  final FutureOrVoidCallback onTap;
-  final ExceptionCallback onException;
-  final Icon icon;
+  final FutureOrVoidCallback? onTap;
+  final ExceptionCallback? onException;
+  final Icon? icon;
 
   const TSALPrimaryButton({
-    @required this.onTap,
-    @required this.label,
+    required this.onTap,
+    required this.label,
     this.icon,
     this.onException,
   });
@@ -28,10 +28,10 @@ class _TSALPrimaryButtonState extends State<TSALPrimaryButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return widget.icon != null
+    return !busy && widget.icon != null
         ? ElevatedButton.icon(
             label: !busy ? widget.label : _buildSpinner(theme),
-            icon: !busy ? widget.icon : null,
+            icon: widget.icon!,
             onPressed: widget.onTap != null ? _onTapInternal : null,
           )
         : ElevatedButton(
@@ -44,20 +44,23 @@ class _TSALPrimaryButtonState extends State<TSALPrimaryButton> {
     return SpinKitRing(
       color: theme.colorScheme.onPrimary,
       lineWidth: 2,
-      size: theme.textTheme.button.fontSize ?? 14,
+      size: theme.textTheme.button!.fontSize ?? 14,
     );
   }
 
   Future<void> _onTapInternal() async {
+    if (widget.onTap == null) {
+      return;
+    }
     setState(() {
       busy = true;
     });
     try {
-      await widget.onTap();
+      await widget.onTap!();
     } on Exception catch (e) {
       debugPrint(e.toString());
       if (widget.onException != null) {
-        widget.onException(e);
+        widget.onException!(e);
       } else {
         DialogUtils.showErrorDialog(
           title: 'Onbekende foutmelding',

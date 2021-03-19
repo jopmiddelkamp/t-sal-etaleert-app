@@ -24,8 +24,8 @@ class SpecialityPreferencesUpdated extends SpecialityPreferencesPageState {
       '${this.runtimeType} { specialitiesCount: ${specialities.length}, selectedSpecialityIdsCount: ${selectedSpecialityIds.length} }';
 
   SpecialityPreferencesUpdated copyWith({
-    List<SpecialityModel> specialities,
-    List<String> selectedSpecialityIds,
+    List<SpecialityModel>? specialities,
+    List<String>? selectedSpecialityIds,
   }) {
     return SpecialityPreferencesUpdated(
       specialities: specialities ?? this.specialities,

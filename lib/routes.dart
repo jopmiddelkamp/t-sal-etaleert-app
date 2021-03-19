@@ -26,7 +26,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         );
       }
       return SelectStartpointPage.route(
-        settings.arguments,
+        settings.arguments as SelectStartpointPageArguments,
       );
     case RoutePage.routeName:
       if (settings.arguments is! RoutePageArguments) {
@@ -37,7 +37,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         );
       }
       return RoutePage.route(
-        settings.arguments,
+        settings.arguments as RoutePageArguments,
       );
     default:
       throw Exception('Invalid route: ${settings.name}');

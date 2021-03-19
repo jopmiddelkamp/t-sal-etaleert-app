@@ -10,16 +10,13 @@ import 'barrel.dart';
 class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
   final RouteService _routeService;
 
-  StreamSubscription _routeStreamSub;
+  StreamSubscription? _routeStreamSub;
 
   RoutePageBloc.createRoute({
-    RouteService routeService,
-    List<ArtistModel> artists,
-    String startingArtistId,
-  })  : assert(routeService != null),
-        assert(artists != null),
-        assert(startingArtistId != null),
-        _routeService = routeService,
+    required RouteService routeService,
+    required List<ArtistModel> artists,
+    required String startingArtistId,
+  })   : _routeService = routeService,
         super(RouteInitializing()) {
     add(RouteCreateRoute(
       artists: artists,
@@ -28,9 +25,8 @@ class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
   }
 
   RoutePageBloc.openRoute({
-    RouteService routeService,
-  })  : assert(routeService != null),
-        _routeService = routeService,
+    required RouteService routeService,
+  })   : _routeService = routeService,
         super(RouteInitializing()) {
     add(RouteOpenRoute());
   }
@@ -76,6 +72,10 @@ class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
   ) async* {
     _routeStreamSub?.cancel();
     _routeStreamSub = _routeService.getRoute().listen((route) {
+      if (route == null) {
+        // TODO: handle situation
+        return;
+      }
       final event = RouteUpdateRoute(
         route,
       );

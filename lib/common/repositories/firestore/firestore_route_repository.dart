@@ -17,7 +17,7 @@ class FirestoreRouteRepository implements RouteRepository {
   }
 
   @override
-  Stream<RouteModel> getRoute(
+  Stream<RouteModel?> getRoute(
     String id,
   ) async* {
     yield* _routeCollection.doc(id).snapshots().map((snapshot) {
@@ -26,7 +26,7 @@ class FirestoreRouteRepository implements RouteRepository {
       }
       return RouteModel.fromMap(
         snapshot.id,
-        snapshot.data(),
+        snapshot.data()!,
       );
     });
   }

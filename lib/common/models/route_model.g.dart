@@ -8,17 +8,15 @@ part of 'route_model.dart';
 
 RouteModel _$RouteModelFromJson(Map<String, dynamic> json) {
   return RouteModel(
-    id: json['id'] as String,
-    stops: (json['stops'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RouteStopModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    stops: (json['stops'] as List<dynamic>)
+        .map((e) => RouteStopModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$RouteModelToJson(RouteModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'stops': instance.stops?.map((e) => e?.toJson())?.toList(),
+      'stops': instance.stops.map((e) => e.toJson()).toList(),
     };

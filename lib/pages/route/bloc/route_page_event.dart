@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../common/models/artist_model.dart';
 import '../../../common/models/route_model.dart';
@@ -23,7 +22,7 @@ class RouteUpdateRoute extends RoutePageEvent {
 
   const RouteUpdateRoute(
     this.route,
-  ) : assert(route != null);
+  );
 }
 
 class RouteCreateRoute extends RoutePageEvent {
@@ -31,10 +30,9 @@ class RouteCreateRoute extends RoutePageEvent {
   final String startingArtistId;
 
   const RouteCreateRoute({
-    @required this.artists,
-    @required this.startingArtistId,
-  })  : assert(artists != null),
-        assert(startingArtistId != null);
+    required this.artists,
+    required this.startingArtistId,
+  });
 
   ArtistModel get startingArtist {
     return artists.firstWhere((e) => e.id == startingArtistId);

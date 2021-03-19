@@ -5,7 +5,7 @@ abstract class RouteRepository {
     RouteModel data,
   );
 
-  Stream<RouteModel> getRoute(
+  Stream<RouteModel?> getRoute(
     String id,
   );
 }

@@ -8,28 +8,21 @@ part of 'artist_model.dart';
 
 ArtistModel _$ArtistModelFromJson(Map<String, dynamic> json) {
   return ArtistModel(
-    id: json['id'] as String,
-    profile: json['profile'] == null
-        ? null
-        : ProfileModel.fromJson(json['profile'] as Map<String, dynamic>),
-    specialities: (json['specialities'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : SpecialityModel.fromJson(e as Map<String, dynamic>)),
+    id: json['id'] as String?,
+    profile: ProfileModel.fromJson(json['profile'] as Map<String, dynamic>),
+    specialities: (json['specialities'] as Map<String, dynamic>).map(
+      (k, e) =>
+          MapEntry(k, SpecialityModel.fromJson(e as Map<String, dynamic>)),
     ),
-    location: json['location'] == null
-        ? null
-        : LocationModel.fromJson(json['location'] as Map<String, dynamic>),
+    location: LocationModel.fromJson(json['location'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$ArtistModelToJson(ArtistModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'profile': instance.profile?.toJson(),
+      'profile': instance.profile.toJson(),
       'specialities':
-          instance.specialities?.map((k, e) => MapEntry(k, e?.toJson())),
-      'location': instance.location?.toJson(),
+          instance.specialities.map((k, e) => MapEntry(k, e.toJson())),
+      'location': instance.location.toJson(),
     };

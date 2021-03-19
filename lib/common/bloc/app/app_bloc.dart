@@ -9,8 +9,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc(
     this._sharedPreferencesService,
-  )   : assert(_sharedPreferencesService != null),
-        super(AppInitializing()) {
+  ) : super(AppInitializing()) {
     add(AppInitialize());
   }
 

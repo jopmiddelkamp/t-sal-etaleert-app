@@ -4,8 +4,8 @@ import 'route_custom_painter_base.dart';
 
 class RouteTopCustomPainter extends RouteCustomPainterBase {
   const RouteTopCustomPainter({
-    Color indicatorColor,
-    Color connectorColor,
+    Color? indicatorColor,
+    Color? connectorColor,
   }) : super(
           indicatorColor: indicatorColor,
           connectorColor: connectorColor,

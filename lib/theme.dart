@@ -94,47 +94,47 @@ TextTheme _buildTextTheme() {
 
   return textTheme.copyWith(
     // Extremely large text.
-    headline1: textTheme.headline1.copyWith(
+    headline1: textTheme.headline1!.copyWith(
       fontSize: 112,
     ),
     // Very, very large text. Used for the date in the dialog shown by [showDatePicker].
-    headline2: textTheme.headline2.copyWith(
+    headline2: textTheme.headline2!.copyWith(
       fontSize: 56,
     ),
     // Very large text.
-    headline3: textTheme.headline3.copyWith(
+    headline3: textTheme.headline3!.copyWith(
       fontSize: 46,
     ),
     // Large text.
-    headline4: textTheme.headline4.copyWith(
+    headline4: textTheme.headline4!.copyWith(
       fontSize: 36,
     ),
     // Used for large text in dialogs (e.g., the month and year in the dialog shown by [showDatePicker]).
-    headline5: textTheme.headline5.copyWith(
+    headline5: textTheme.headline5!.copyWith(
       fontSize: 26,
     ),
     // Used for the primary text in app bars and dialogs (e.g., [AppBar.title] and [AlertDialog.title]).
-    headline6: textTheme.headline6.copyWith(
+    headline6: textTheme.headline6!.copyWith(
       fontSize: 22,
     ),
     // Used for the primary text in lists (e.g., [ListTile.title])
-    subtitle1: textTheme.subtitle1.copyWith(
+    subtitle1: textTheme.subtitle1!.copyWith(
       fontSize: 18,
     ),
     // For medium emphasis text that's a little smaller than [subtitle1].
-    subtitle2: textTheme.subtitle2.copyWith(
+    subtitle2: textTheme.subtitle2!.copyWith(
       fontSize: 16,
     ),
     // The default text style for [Material].
-    bodyText2: textTheme.bodyText2.copyWith(
+    bodyText2: textTheme.bodyText2!.copyWith(
       fontSize: 16,
     ),
     // Used for emphasizing text that would otherwise be [bodyText2].
-    bodyText1: textTheme.bodyText1.copyWith(
+    bodyText1: textTheme.bodyText1!.copyWith(
       fontSize: 16,
     ),
     // Used for text on [ElevatedButton], [TextButton] and [OutlinedButton].
-    button: textTheme.button.copyWith(
+    button: textTheme.button!.copyWith(
       fontWeight: TSALFontWeight.bold,
       fontSize: 16,
     ),
@@ -144,54 +144,45 @@ TextTheme _buildTextTheme() {
 enum ChipType { filter, input }
 
 ChipThemeData buildChipTheme({
-  @required TextTheme textTheme,
-  Color backgroundColor,
-  Color deleteIconColor,
-  Color disabledColor,
-  Color selectedColor,
-  Color secondarySelectedColor,
-  Color shadowColor,
-  Color selectedShadowColor,
-  bool showCheckmark,
-  Color checkmarkColor,
-  EdgeInsetsGeometry labelPadding,
-  EdgeInsetsGeometry padding,
-  ShapeBorder shape,
-  TextStyle labelStyle,
-  TextStyle secondaryLabelStyle,
-  Brightness brightness,
-  double elevation,
-  double pressElevation,
+  required TextTheme textTheme,
+  Color? backgroundColor,
+  Color? deleteIconColor,
+  Color? disabledColor,
+  Color? selectedColor,
+  Color? secondarySelectedColor,
+  Color? shadowColor,
+  Color? selectedShadowColor,
+  bool? showCheckmark,
+  Color? checkmarkColor,
+  EdgeInsetsGeometry? labelPadding,
+  EdgeInsetsGeometry? padding,
+  ShapeBorder? shape,
+  TextStyle? labelStyle,
+  TextStyle? secondaryLabelStyle,
+  Brightness? brightness,
+  double? elevation,
+  double? pressElevation,
 }) {
   backgroundColor = backgroundColor ?? ThemeColors.primaryColor;
-  assert(backgroundColor != null);
   disabledColor = disabledColor ?? ThemeColors.primaryColor.withOpacity(0.4);
-  assert(disabledColor != null);
   selectedColor = selectedColor ?? ThemeColors.primaryColor;
-  assert(selectedColor != null);
   secondarySelectedColor = secondarySelectedColor ?? ThemeColors.primaryColor;
-  assert(secondarySelectedColor != null);
   padding =
       padding ?? const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0);
-  assert(padding != null);
   shape = shape ??
       RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(1000.0)),
         side: BorderSide.none,
       );
-  assert(shape != null);
   labelStyle = labelStyle ??
       buildChipThemeTextStyle(
         textTheme: textTheme,
       );
-  assert(labelStyle != null);
   secondaryLabelStyle = secondaryLabelStyle ??
       buildChipThemeTextStyle(
         textTheme: textTheme,
       );
-  assert(secondaryLabelStyle != null);
   brightness = brightness ?? Brightness.light;
-  assert(brightness != null);
 
   return ChipThemeData(
     backgroundColor: backgroundColor,
@@ -205,19 +196,19 @@ ChipThemeData buildChipTheme({
     checkmarkColor: checkmarkColor ?? ThemeColors.onPrimaryColor,
     labelPadding: labelPadding ?? EdgeInsets.fromLTRB(6, 4, 6, 4),
     padding: padding,
-    shape: shape,
+    shape: shape as OutlinedBorder?,
     labelStyle: labelStyle,
-    secondaryLabelStyle: secondaryLabelStyle ?? ThemeColors.onPrimaryColor,
+    secondaryLabelStyle: secondaryLabelStyle,
     brightness: brightness,
     elevation: elevation ?? 0,
     pressElevation: pressElevation ?? 0,
   );
 }
 
-buildChipThemeTextStyle({
-  TextTheme textTheme,
-  Color color,
-  double fontSize,
+TextStyle buildChipThemeTextStyle({
+  TextTheme? textTheme,
+  Color? color,
+  double? fontSize,
 }) {
   return TextStyle(
     color: color ?? ThemeColors.onPrimaryColor,

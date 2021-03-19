@@ -6,12 +6,13 @@ import '../extensions/barrel.dart';
 class DialogUtils {
   /// Method to show an error dialog. Note: please try to provide the build context if possible.
   static Future<void> showErrorDialog({
-    BuildContext context,
-    @required String title,
-    @required String message,
+    BuildContext? context,
+    required String title,
+    required String message,
   }) {
     return showDialog<void>(
-      context: context ?? Application.navigatorKey.currentState.overlay.context,
+      context:
+          context ?? Application.navigatorKey.currentState!.overlay!.context,
       builder: (context) {
         return AlertDialog(
           title: Row(
@@ -23,7 +24,7 @@ class DialogUtils {
           ),
           content: Text(message),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Oke'),
             )
@@ -34,17 +35,18 @@ class DialogUtils {
   }
 
   static Future<void> showNotImplementedYetDialog({
-    BuildContext context,
+    BuildContext? context,
   }) {
     return showDialog<void>(
-      context: context ?? Application.navigatorKey.currentState.overlay.context,
+      context:
+          context ?? Application.navigatorKey.currentState!.overlay!.context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Nog niet geimplementeerd!'),
           content:
               const Text('Deze functionaliteit is not niet geimplementeerd.'),
           actions: <Widget>[
-            new FlatButton(
+            new TextButton(
               child: const Text('Sluiten'),
               onPressed: context.navigator.pop,
             ),

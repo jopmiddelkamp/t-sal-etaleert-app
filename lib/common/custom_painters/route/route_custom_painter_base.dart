@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 abstract class RouteCustomPainterBase extends CustomPainter {
-  final Color indicatorColor;
-  final Color connectorColor;
+  final Color? indicatorColor;
+  final Color? connectorColor;
 
   const RouteCustomPainterBase({
-    @required this.indicatorColor,
-    @required this.connectorColor,
+    required this.indicatorColor,
+    required this.connectorColor,
   });
 
   Paint get indicatorPaint => Paint()

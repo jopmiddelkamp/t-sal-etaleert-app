@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 abstract class AppState {
   const AppState() : super();
 }
@@ -13,7 +11,7 @@ class AppInitialized extends AppState {
   final bool introAccepted;
 
   const AppInitialized({
-    @required this.introAccepted,
+    required this.introAccepted,
   });
 
   @override
@@ -24,7 +22,7 @@ class AppAppInitializationError extends AppState {
   final String message;
 
   const AppAppInitializationError({
-    @required this.message,
+    required this.message,
   });
 
   @override

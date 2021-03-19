@@ -62,15 +62,15 @@ class SpecialityPreferencesPage extends StatelessWidget {
     );
   }
 
-  VoidCallback _buildNextButtonOnTapCallback({
-    @required BuildContext context,
-    @required SpecialityPreferencesPageState state,
+  VoidCallback? _buildNextButtonOnTapCallback({
+    required BuildContext context,
+    required SpecialityPreferencesPageState state,
   }) {
     if (state is! SpecialityPreferencesUpdated) {
       return null;
     }
-    final updatedState = state as SpecialityPreferencesUpdated;
-    if (updatedState.selectedSpecialityIds?.isNotEmpty != true) {
+    final updatedState = state;
+    if (updatedState.selectedSpecialityIds.isNotEmpty != true) {
       return null;
     }
     return () => context.navigator.pushNamed(
@@ -94,7 +94,7 @@ class SpecialityPreferencesPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final category = state.specialities[index];
               return TSALListTile(
-                title: Text(category.name.getValue()),
+                title: Text(category.name.getValue()!),
                 onTap: () => context
                     .blocProvider<SpecialityPreferencesPageBloc>()
                     .add(SpecialityPreferencesToggleSpeciality(category)),

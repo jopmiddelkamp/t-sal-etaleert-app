@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'route_stop_model.dart';
@@ -7,15 +6,15 @@ part 'route_model.g.dart';
 
 @JsonSerializable()
 class RouteModel {
-  final String id;
+  final String? id;
   final List<RouteStopModel> stops;
 
   const RouteModel({
-    @required this.id,
-    @required List<RouteStopModel> stops,
-  }) : this.stops = stops ?? const [];
+    required this.id,
+    required this.stops,
+  });
 
-  List<String> get artistIds =>
+  List<String?> get artistIds =>
       stops.map((e) => e.artist.id).toList(growable: false);
 
   List<String> get specialityIds => stops
@@ -39,8 +38,7 @@ class RouteModel {
   }
 
   RouteModel copyWith({
-    String name,
-    List<RouteStopModel> stops,
+    List<RouteStopModel>? stops,
   }) {
     return RouteModel(
       id: id,

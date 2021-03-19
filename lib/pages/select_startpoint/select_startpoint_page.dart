@@ -12,11 +12,8 @@ import 'bloc/barrel.dart';
 class SelectStartpointPage extends StatelessWidget {
   static const String routeName = '/select-startpoint';
 
-  final SelectStartpointPageArguments arguments;
-
   const SelectStartpointPage({
-    Key key,
-    this.arguments,
+    Key? key,
   }) : super(key: key);
 
   static MaterialPageRoute route(
@@ -50,7 +47,7 @@ class SelectStartpointPage extends StatelessWidget {
           RoutePage.routeName,
           arguments: CreateRoutePageArguments(
             artists: current.artists,
-            startingArtistId: current.selectedArtistId,
+            startingArtistId: current.selectedArtistId!,
           ),
         );
       },
@@ -97,7 +94,7 @@ class SelectStartpointPage extends StatelessWidget {
   List<Widget> _buildArtistCards(
     SelectStartpointUpdated state,
   ) {
-    final result = List<Widget>();
+    final result = <Widget>[];
     var first = true;
     state.artists.take(2).forEach((e) {
       if (first) {
@@ -122,6 +119,6 @@ class SelectStartpointPageArguments {
   final List<String> selectedSpecialityIds;
 
   const SelectStartpointPageArguments({
-    this.selectedSpecialityIds,
+    required this.selectedSpecialityIds,
   });
 }

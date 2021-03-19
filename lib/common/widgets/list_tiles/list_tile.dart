@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TSALListTile extends StatelessWidget {
-  final Widget leading;
-  final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
+  final Widget? leading;
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? trailing;
   final bool selected;
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
 
   const TSALListTile({
-    Key key,
+    Key? key,
     this.leading,
     this.title,
     this.subtitle,

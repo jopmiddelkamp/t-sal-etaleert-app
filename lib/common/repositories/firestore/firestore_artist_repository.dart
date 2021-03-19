@@ -14,7 +14,7 @@ class FirestoreArtistRepository implements ArtistRepository {
       List<String> specialityIds) async* {
     // ignore: unnecessary_cast
     var query = _artistCollection as Query;
-    if (specialityIds?.isNotEmpty == true) {
+    if (specialityIds.isNotEmpty == true) {
       query = query.where(
         'specialitiesKeys',
         arrayContainsAny: specialityIds,
@@ -25,7 +25,7 @@ class FirestoreArtistRepository implements ArtistRepository {
       final List<ArtistModel> artists = snapshot.docs
           .map((doc) => ArtistModel.fromMap(
                 id: doc.id,
-                map: doc.data(),
+                map: doc.data()!,
               ))
           .toList(growable: false);
       artists.forEach((element) {

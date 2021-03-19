@@ -10,7 +10,7 @@ class SpecialityService extends ServiceBase {
   );
 
   Stream<List<SpecialityModel>> getSpecialities([
-    List<String> ids,
+    List<String>? ids,
   ]) {
     return _specialityRepository.getSpecialities(
       ids,

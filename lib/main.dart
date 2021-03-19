@@ -44,8 +44,17 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>
-    with WidgetsBindingObserver, _RepositoriesMixin, _ServicesMixin {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  late ArtistRepository _artistRepository;
+  late RouteRepository _routeRepository;
+  late SpecialityRepository _specialityRepository;
+
+  late ArtistService _artistService;
+  late LocationService _locationService;
+  late RouteService _routeService;
+  late SharedPreferencesService _sharedPreferencesService;
+  late SpecialityService _specialityService;
+
   @override
   Widget build(BuildContext context) {
     return multiProviderWrapper(
@@ -91,7 +100,7 @@ class _MyAppState extends State<MyApp>
   }
 
   Widget multiProviderWrapper({
-    Widget child,
+    required Widget child,
   }) {
     return MultiProvider(
       providers: [
@@ -141,14 +150,14 @@ class _MyAppState extends State<MyApp>
     debugPrint('### DEVICE_ID ###');
     PlatformDeviceId.getDeviceId.then((value) => debugPrint(value));
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -159,15 +168,12 @@ class _MyAppState extends State<MyApp>
     }
   }
 
-  @override
   void initializeRepositories() {
     _artistRepository = FirestoreArtistRepository();
     _routeRepository = FirestoreRouteRepository();
     _specialityRepository = FirestoreSpecialityRepository();
-    super.initializeRepositories();
   }
 
-  @override
   void initializeServices() {
     _artistService = ArtistService(
       _artistRepository,
@@ -180,34 +186,5 @@ class _MyAppState extends State<MyApp>
     _specialityService = SpecialityService(
       _specialityRepository,
     );
-    super.initializeRepositories();
-  }
-}
-
-mixin _RepositoriesMixin {
-  ArtistRepository _artistRepository;
-  RouteRepository _routeRepository;
-  SpecialityRepository _specialityRepository;
-
-  void initializeRepositories() {
-    assert(_artistRepository != null);
-    assert(_routeRepository != null);
-    assert(_specialityRepository != null);
-  }
-}
-
-mixin _ServicesMixin {
-  ArtistService _artistService;
-  LocationService _locationService;
-  RouteService _routeService;
-  SharedPreferencesService _sharedPreferencesService;
-  SpecialityService _specialityService;
-
-  void initializeServices() {
-    assert(_artistService != null);
-    assert(_locationService != null);
-    assert(_routeService != null);
-    assert(_sharedPreferencesService != null);
-    assert(_specialityService != null);
   }
 }

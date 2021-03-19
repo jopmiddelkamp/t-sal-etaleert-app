@@ -41,7 +41,7 @@ class IntroPage extends StatelessWidget {
                   left: 16,
                   child: Text(
                     '\'t Sal etaleert',
-                    style: textTheme.headline6.copyWith(
+                    style: textTheme.headline6!.copyWith(
                       color: Colors.white,
                       fontWeight: TSALFontWeight.bold,
                     ),

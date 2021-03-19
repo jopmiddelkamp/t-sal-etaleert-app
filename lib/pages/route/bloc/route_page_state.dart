@@ -21,10 +21,10 @@ class RouteUpdated extends RoutePageState {
   String toString() => '${this.runtimeType} { stops: ${stops.length} }';
 
   RouteUpdated copyWith({
-    List<ArtistModel> stops,
+    List<ArtistModel>? stops,
   }) {
     return RouteUpdated(
-      stops: stops ?? this.stops,
+      stops: stops as List<RouteStopModel>? ?? this.stops,
     );
   }
 }

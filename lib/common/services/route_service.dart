@@ -22,9 +22,10 @@ class RouteService extends ServiceBase {
     await _routeRepository.createRoute(data);
   }
 
-  Stream<RouteModel> getRoute() async* {
+  Stream<RouteModel?> getRoute() async* {
+    final platformDeviceId = await PlatformDeviceId.getDeviceId;
     yield* _routeRepository.getRoute(
-      await PlatformDeviceId.getDeviceId,
+      platformDeviceId!,
     );
   }
 }

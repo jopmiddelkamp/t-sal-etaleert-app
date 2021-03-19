@@ -15,8 +15,7 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   final SharedPreferencesService _sharedPreferencesService;
 
   PermissionsBloc(this._sharedPreferencesService)
-      : assert(_sharedPreferencesService != null),
-        super(PermissionsInitializing()) {
+      : super(PermissionsInitializing()) {
     add(PermissionsInitialize());
   }
 
@@ -78,7 +77,7 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
       if (locationStatus.isGranted) {
         yield PermissionsGranted();
       } else {
-        if (lastLocationStatus.isDenied) {
+        if (lastLocationStatus!.isDenied) {
           await DialogUtils.showErrorDialog(
             title: 'Rechten geweigerd',
             message:
@@ -100,7 +99,7 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
     }
   }
 
-  Future<PermissionStatus> _getLastLocationPermissionStatus() async {
+  Future<PermissionStatus?> _getLastLocationPermissionStatus() async {
     final statusString =
         await _sharedPreferencesService.getLastLocationPermissionStatus();
     if (statusString == null) {

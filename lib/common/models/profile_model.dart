@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profile_model.g.dart';
@@ -7,22 +6,22 @@ part 'profile_model.g.dart';
 @JsonSerializable()
 class ProfileModel extends Equatable {
   final String firstName;
-  final String middleName;
+  final String? middleName;
   final String lastName;
-  final String personalImage;
+  final String? personalImage;
 
   const ProfileModel({
-    @required this.firstName,
-    @required this.middleName,
-    @required this.lastName,
-    @required this.personalImage,
+    required this.firstName,
+    required this.middleName,
+    required this.lastName,
+    required this.personalImage,
   });
 
   String get fullName =>
-      '$firstName ${middleName?.isNotEmpty == true ? middleName + ' ' : ''}$lastName';
+      '$firstName ${middleName?.isNotEmpty == true ? middleName! + ' ' : ''}$lastName';
 
   @override
-  List<Object> get props => [firstName, middleName, lastName, personalImage];
+  List<Object?> get props => [firstName, middleName, lastName, personalImage];
 
   @override
   String toString() =>
@@ -36,8 +35,10 @@ class ProfileModel extends Equatable {
       );
 
   ProfileModel copyWith({
-    String name,
-    bool selected,
+    String? firstName,
+    String? middleName,
+    String? lastName,
+    String? personalImage,
   }) {
     return ProfileModel(
       firstName: firstName ?? this.firstName,

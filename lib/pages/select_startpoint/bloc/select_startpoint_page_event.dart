@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../common/models/artist_model.dart';
 
@@ -17,7 +16,7 @@ class SelectStartpointInitialize extends SelectStartpointPageEvent {
   final List<String> selectedSpecialityIds;
 
   const SelectStartpointInitialize({
-    @required this.selectedSpecialityIds,
+    required this.selectedSpecialityIds,
   });
 }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ThemeColors {
-  static Color primaryColor = Colors.orange[500];
-  static Color primaryColorDarker = Colors.orange[700];
+  static Color primaryColor = Colors.orange.shade500;
+  static Color primaryColorDarker = Colors.orange.shade700;
   static const Color onPrimaryColor = Color.fromRGBO(255, 255, 255, 1);
 
   static const Color accentColor = Color.fromRGBO(2, 119, 189, 1);

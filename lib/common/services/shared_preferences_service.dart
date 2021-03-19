@@ -7,7 +7,7 @@ import 'service_base.dart';
 class SharedPreferencesService extends ServiceBase {
   final Completer<Null> _readyCompleter = Completer<Null>();
 
-  SharedPreferences _sp;
+  late SharedPreferences _sp;
 
   static const String introPassedKey = 'SP_INTRO_PASSED';
   static const String lastLocationPermissionStatusKey =
@@ -35,7 +35,7 @@ class SharedPreferencesService extends ServiceBase {
     _sp.setBool(introPassedKey, value);
   }
 
-  Future<String> getLastLocationPermissionStatus() async {
+  Future<String?> getLastLocationPermissionStatus() async {
     await _onReady;
     return _sp.getString(lastLocationPermissionStatusKey);
   }

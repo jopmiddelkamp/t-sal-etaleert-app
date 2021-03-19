@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'location_model.dart';
@@ -10,20 +9,20 @@ part 'artist_model.g.dart';
 
 @JsonSerializable()
 class ArtistModel extends Equatable {
-  final String id;
+  final String? id;
   final ProfileModel profile;
   final Map<String, SpecialityModel> specialities;
   final LocationModel location;
 
   const ArtistModel({
-    @required this.id,
-    @required this.profile,
-    @required this.specialities,
-    @required this.location,
+    required this.id,
+    required this.profile,
+    required this.specialities,
+    required this.location,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         profile,
         specialities,
@@ -34,21 +33,19 @@ class ArtistModel extends Equatable {
       '${this.runtimeType} { id: $id, profile: $profile, specialities: $specialities, location: $location }';
 
   factory ArtistModel.fromMap({
-    String id,
-    Map<String, dynamic> map,
+    String? id,
+    required Map<String, dynamic> map,
   }) {
     final specialities = <String, SpecialityModel>{};
-    final specialitiesList = (map['specialities'] as Map);
-    if (specialitiesList != null) {
-      specialitiesList.forEach((key, value) {
-        final specialityMap = value as Map;
-        final speciality = SpecialityModel.fromMap(
-          key,
-          specialityMap,
-        );
-        specialities[key] = speciality;
-      });
-    }
+    final specialitiesMap = (map['specialities'] as Map);
+    specialitiesMap.forEach((key, value) {
+      final specialityMap = value as Map;
+      final speciality = SpecialityModel.fromMap(
+        key,
+        specialityMap as Map<String, dynamic>,
+      );
+      specialities[key] = speciality;
+    });
     return ArtistModel(
       id: id,
       profile: ProfileModel.fromMap(
@@ -62,14 +59,15 @@ class ArtistModel extends Equatable {
   }
 
   ArtistModel copyWith({
-    ProfileModel profile,
-    List<String> specialities,
-    LocationModel location,
+    ProfileModel? profile,
+    List<String>? specialities,
+    LocationModel? location,
   }) {
     return ArtistModel(
       id: id,
       profile: profile ?? this.profile,
-      specialities: specialities ?? this.specialities,
+      specialities:
+          specialities as Map<String, SpecialityModel>? ?? this.specialities,
       location: location ?? this.location,
     );
   }

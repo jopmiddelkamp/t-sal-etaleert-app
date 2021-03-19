@@ -13,7 +13,7 @@ class SelectStartpointInitializing extends SelectStartpointPageState {
 
 class SelectStartpointUpdated extends SelectStartpointPageState {
   final List<ArtistModel> artists;
-  final String selectedArtistId;
+  final String? selectedArtistId;
 
   const SelectStartpointUpdated({
     this.artists = const [],
@@ -27,8 +27,8 @@ class SelectStartpointUpdated extends SelectStartpointPageState {
       '${this.runtimeType} { artistsCount: ${artists.length}, selectedArtistId: $selectedArtistId }';
 
   SelectStartpointUpdated copyWith({
-    List<ArtistModel> artists,
-    String selectedArtistId,
+    List<ArtistModel>? artists,
+    String? selectedArtistId,
   }) {
     return SelectStartpointUpdated(
       artists: artists ?? this.artists,

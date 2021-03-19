@@ -11,7 +11,7 @@ class FirestoreSpecialityRepository implements SpecialityRepository {
             FirebaseFirestore.instance.collection('specialities');
 
   @override
-  Stream<List<SpecialityModel>> getSpecialities([List<String> ids]) {
+  Stream<List<SpecialityModel>> getSpecialities([List<String>? ids]) {
     // ignore: unnecessary_cast
     var query = _specialityCollection as Query;
     if (ids != null) {
@@ -19,7 +19,7 @@ class FirestoreSpecialityRepository implements SpecialityRepository {
     }
     return query.snapshots().map((docs) {
       return docs.docs
-          .map((doc) => SpecialityModel.fromMap(doc.id, doc.data()))
+          .map((doc) => SpecialityModel.fromMap(doc.id, doc.data()!))
           .toList(growable: false);
     });
   }

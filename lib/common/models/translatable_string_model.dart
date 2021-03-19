@@ -9,11 +9,11 @@ class TranslatableStringModel {
 
   const TranslatableStringModel(this._data);
 
-  String getValue([String countryCode = 'nl']) {
-    if (_data?.containsKey(countryCode) != true) {
+  String? getValue([String countryCode = 'nl']) {
+    if (_data.containsKey(countryCode) != true) {
       return null;
     }
-    return _data[countryCode] as String;
+    return _data[countryCode] as String?;
   }
 
   factory TranslatableStringModel.fromMap(Map<String, dynamic> map) =>
