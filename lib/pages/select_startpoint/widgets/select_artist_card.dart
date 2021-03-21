@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../common/extensions/barrel.dart';
 import '../../../common/models/artist_model.dart';
-import '../../../common/models/speciality_model.dart';
 import '../../../common/ui/font_weight.dart';
 import '../bloc/barrel.dart';
 
@@ -59,53 +58,38 @@ class SelectArtistCard extends StatelessWidget {
   Widget _buildSpecialitiesList(
     ThemeData theme,
   ) {
-    final height = 25.0;
+    final height = theme.textTheme.bodyText2!.fontSize! + 8;
     return SizedBox(
       height: height,
       child: ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: artist.specialities.length,
+        itemCount: artist.specialities.length * 2 - 1,
         itemBuilder: (context, index) {
-          final key = artist.specialities.keys.elementAt(index);
-          final speciality = artist.specialities[key]!;
-          return Padding(
-            padding: index > 0
-                ? const EdgeInsets.only(left: 8)
-                : const EdgeInsets.all(0),
-            child: _buildSpecialitiesListItem(
-              theme,
-              height,
-              speciality,
-            ),
-          );
+          return _buildSpecialtiesListItem(theme, index);
         },
       ),
     );
   }
 
-  Widget _buildSpecialitiesListItem(
-    ThemeData theme,
-    double height,
-    SpecialityModel speciality,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 8,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.black45,
-        borderRadius: BorderRadius.circular(height / 2),
-      ),
-      child: Text(
-        speciality.name.getValue()!.toUpperCase(),
-        style: theme.textTheme.bodyText2!.copyWith(
-          color: Colors.white,
-          fontSize: theme.textTheme.bodyText2!.fontSize! * 0.75,
-        ),
-      ),
+  Widget _buildSpecialtiesListItem(ThemeData theme, int index) {
+    final style = theme.textTheme.bodyText2!.copyWith(
+      color: Colors.white,
+      fontSize: theme.textTheme.bodyText2!.fontSize,
+    );
+    if (index % 2 == 1) {
+      return Text(
+        ' - ',
+        style: style,
+      );
+    }
+    index = index ~/ 2;
+    final key = artist.specialities.keys.elementAt(index);
+    final speciality = artist.specialities[key]!;
+    return Text(
+      speciality.name.getValue()!.toUpperCase(),
+      style: style,
     );
   }
 
