@@ -13,8 +13,9 @@ import 'bloc/barrel.dart';
 final sl = GetIt.instance;
 
 class SpecialityPreferencesPage extends StatelessWidget {
-  static const String routeName = '/speciality-preferences';
+  static const String routeName = '/route_planner/speciality-preferences';
 
+  // TODO: implement Flutter navigtor 2.0
   static MaterialPageRoute route() {
     return MaterialPageRoute(
       builder: (context) => BlocProvider(

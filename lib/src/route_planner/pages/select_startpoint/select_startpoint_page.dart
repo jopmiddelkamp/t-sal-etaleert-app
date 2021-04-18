@@ -13,7 +13,7 @@ import 'bloc/barrel.dart';
 final sl = GetIt.instance;
 
 class SelectStartpointPage extends StatelessWidget {
-  static const String routeName = '/select-startpoint';
+  static const String routeName = '/route_planner/select-startpoint';
 
   const SelectStartpointPage({
     Key? key,

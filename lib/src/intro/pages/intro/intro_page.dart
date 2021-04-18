@@ -12,7 +12,7 @@ import '../../../route_planner/pages/speciality_preferences/speciality_preferenc
 final sl = GetIt.instance;
 
 class IntroPage extends StatelessWidget {
-  static const String routeName = '/intro';
+  static const String routeName = '/route_planner/intro';
 
   static MaterialPageRoute route() {
     return MaterialPageRoute(
@@ -55,7 +55,7 @@ class IntroPage extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +87,7 @@ class IntroPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               width: double.infinity,
               child: BlocConsumer<PermissionsBloc, PermissionsState>(
                 listener: (context, state) {
