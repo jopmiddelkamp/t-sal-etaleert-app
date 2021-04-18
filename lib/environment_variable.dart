@@ -20,13 +20,11 @@ class EnvironmentVariablesImpl extends EnvironmentVariables {
   );
   static const _routeXlUsername = String.fromEnvironment(
     'ROUTE_XL_USERNAME',
-    // TODO: Create dev account
-    defaultValue: 'jopmiddelkamp',
+    defaultValue: 'register your own at routexl.com',
   );
   static const _routeXlPassword = String.fromEnvironment(
     'ROUTE_XL_PASSWORD',
-    // TODO: Create dev account
-    defaultValue: '@95&^Pw1@Qqf',
+    defaultValue: 'register your own at routexl.com',
   );
 
   EnvironmentVariablesImpl({
