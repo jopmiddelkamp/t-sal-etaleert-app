@@ -3,17 +3,17 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'environment_variable.dart';
-import 'src/common/repositories/artist/artist_repository.dart';
-import 'src/common/repositories/artist/firestore/firestore_artist_repository.dart';
-import 'src/common/repositories/route/firestore/firestore_route_repository.dart';
-import 'src/common/repositories/route/route_repository.dart';
-import 'src/common/repositories/route_generator/route_generator_repository.dart';
-import 'src/common/repositories/route_generator/route_xl/route_xl_repository.dart';
-import 'src/common/repositories/speciality/firestore/firestore_speciality_repository.dart';
-import 'src/common/repositories/speciality/speciality_repository.dart';
-import 'src/common/services/artist_service.dart';
 import 'src/common/services/barrel.dart';
 import 'src/common/services/location_service.dart';
+import 'src/route_planner/repositories/artist/artist_repository.dart';
+import 'src/route_planner/repositories/artist/firestore/firestore_artist_repository.dart';
+import 'src/route_planner/repositories/route/firestore/firestore_route_repository.dart';
+import 'src/route_planner/repositories/route/route_repository.dart';
+import 'src/route_planner/repositories/route_generator/route_generator_repository.dart';
+import 'src/route_planner/repositories/route_generator/route_xl/route_xl_repository.dart';
+import 'src/route_planner/repositories/speciality/firestore/firestore_speciality_repository.dart';
+import 'src/route_planner/repositories/speciality/speciality_repository.dart';
+import 'src/route_planner/services/artist_service.dart';
 
 final sl = GetIt.instance;
 

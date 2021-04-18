@@ -8,9 +8,9 @@ import 'common/bloc/barrel.dart';
 import 'common/services/barrel.dart';
 import 'common/utils/dialog_utils.dart';
 import 'constants.dart';
-import 'pages/intro/intro_page.dart';
-import 'pages/speciality_preferences/bloc/barrel.dart';
-import 'pages/speciality_preferences/speciality_preferences_page.dart';
+import 'intro/pages/intro/intro_page.dart';
+import 'route_planner/pages/speciality_preferences/bloc/barrel.dart';
+import 'route_planner/pages/speciality_preferences/speciality_preferences_page.dart';
 import 'theme.dart';
 
 final sl = GetIt.instance;

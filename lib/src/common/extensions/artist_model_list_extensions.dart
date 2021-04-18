@@ -1,4 +1,4 @@
-import '../models/artist_model.dart';
+import '../../route_planner/models/artist_model.dart';
 import '../models/location_model.dart';
 import '../utils/location_utils.dart';
 
