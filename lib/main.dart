@@ -24,7 +24,7 @@ void main() async {
   // https://levelup.gitconnected.com/three-things-you-didnt-know-about-exception-handling-in-dart-and-flutter-d021e1458f08
   runZonedGuarded(() {
     runApp(
-      MyApp(),
+      MyApp.blocProvider(),
     );
   }, (e, s) {
     print(

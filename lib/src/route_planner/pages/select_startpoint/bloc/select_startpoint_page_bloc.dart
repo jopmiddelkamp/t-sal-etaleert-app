@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/extensions/artist_model_list_extensions.dart';
-import '../../../../common/services/location_service.dart';
+import '../../../../common/services/location/location_service.dart';
 import '../../../services/artist_service.dart';
 import 'barrel.dart';
 

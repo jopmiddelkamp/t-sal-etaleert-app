@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../services/shared_preferences_service.dart';
+import '../../services/persistent_storage/persistent_storage_service.dart';
 import 'barrel.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  final SharedPreferencesService _sharedPreferencesService;
+  final PersistentStorageService _persistentStorageService;
 
-  AppBloc(
-    this._sharedPreferencesService,
-  ) : super(AppInitializing()) {
+  AppBloc({
+    required PersistentStorageService persistentStorageService,
+  })   : _persistentStorageService = persistentStorageService,
+        super(AppInitializing()) {
     add(AppInitialize());
   }
 
@@ -29,7 +30,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   ) async* {
     try {
       yield AppInitialized(
-        introAccepted: await _sharedPreferencesService.getIntroPassed(),
+        introAccepted: await _persistentStorageService.getIsIntroAccepted(),
       );
     } on Exception catch (e) {
       debugPrint(e.toString());

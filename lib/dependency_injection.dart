@@ -4,7 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'environment_variable.dart';
 import 'src/common/services/barrel.dart';
-import 'src/common/services/location_service.dart';
+import 'src/common/services/location/geo_locator/location_service.dart';
+import 'src/common/services/location/location_service.dart';
+import 'src/common/services/permission/permission_handler/ph_location_permission_service.dart';
+import 'src/common/services/permission/permission_service.dart';
+import 'src/common/services/persistent_storage/shared_preferences/sp_persistent_storage_service.dart';
 import 'src/route_planner/repositories/artist/artist_repository.dart';
 import 'src/route_planner/repositories/artist/firestore/firestore_artist_repository.dart';
 import 'src/route_planner/repositories/route/firestore/firestore_route_repository.dart';
@@ -91,13 +95,21 @@ Future<void> _initServices() async {
     ],
   );
   sl.registerSingletonAsync<LocationService>(
-    () async => LocationServiceImpl(),
+    () async => GlLocationServiceImpl(),
   );
   final sp = await SharedPreferences.getInstance();
-  sl.registerSingletonAsync<SharedPreferencesService>(
-    () async => SharedPreferencesServiceImpl(
+  sl.registerSingletonAsync<PersistentStorageService>(
+    () async => SpPersistentStorageServiceImpl(
       sharedPreferences: sp,
     ),
+  );
+  sl.registerSingletonWithDependencies<PermissionService>(
+    () => PhLocationPermissionServiceImpl(
+      persistentStorageService: sl<PersistentStorageService>(),
+    ),
+    dependsOn: [
+      PersistentStorageService,
+    ],
   );
   // final deviceInfo = DeviceInfoPlugin();
   // sl.registerSingletonAsync<DeviceInfoService>(

@@ -19,28 +19,34 @@ final sl = GetIt.instance;
 class RoutePage extends StatelessWidget {
   static const String routeName = '/route';
 
-  const RoutePage({
-    Key? key,
-  }) : super(key: key);
+  const RoutePage._();
+
+  static Widget blocProvider(
+    RoutePageArguments arguments,
+  ) {
+    return BlocProvider(
+      create: (context) {
+        if (arguments is CreateRoutePageArguments) {
+          return RoutePageBloc.createRoute(
+            routeService: sl<RouteService>(),
+            artists: arguments.artists,
+            startingArtistId: arguments.startingArtistId,
+          );
+        }
+        return RoutePageBloc.openRoute(
+          routeService: sl<RouteService>(),
+        );
+      },
+      child: RoutePage._(),
+    );
+  }
 
   static MaterialPageRoute route(
     RoutePageArguments arguments,
   ) {
     return MaterialPageRoute(
-      builder: (context) => BlocProvider<RoutePageBloc>(
-        create: (context) {
-          if (arguments is CreateRoutePageArguments) {
-            return RoutePageBloc.createRoute(
-              routeService: sl<RouteService>(),
-              artists: arguments.artists,
-              startingArtistId: arguments.startingArtistId,
-            );
-          }
-          return RoutePageBloc.openRoute(
-            routeService: sl<RouteService>(),
-          );
-        },
-        child: RoutePage(),
+      builder: (context) => RoutePage.blocProvider(
+        arguments,
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../dialogs/error_dialog.dart';
 import '../../typedefs.dart';
-import '../../utils/dialog_utils.dart';
 
 class TSALPrimaryButton extends StatefulWidget {
   final Widget label;
@@ -62,7 +62,8 @@ class _TSALPrimaryButtonState extends State<TSALPrimaryButton> {
       if (widget.onException != null) {
         widget.onException!(e);
       } else {
-        DialogUtils.showErrorDialog(
+        showErrorDialog(
+          context,
           title: 'Onbekende foutmelding',
           message:
               'Er is een onverwachte foutmelding opgetreden. ${e.toString()}',

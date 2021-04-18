@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../common/extensions/barrel.dart';
-import '../../../common/services/location_service.dart';
+import '../../../common/services/location/location_service.dart';
 import '../../../common/widgets/loading_indicators/circle_loading_indicator.dart';
 import '../../pages/select_startpoint/widgets/select_artist_card.dart';
 import '../../services/artist_service.dart';
@@ -15,31 +15,35 @@ final sl = GetIt.instance;
 class SelectStartpointPage extends StatelessWidget {
   static const String routeName = '/route_planner/select-startpoint';
 
-  const SelectStartpointPage({
-    Key? key,
-  }) : super(key: key);
+  const SelectStartpointPage._();
+
+  static Widget blocProvider(
+    SelectStartpointPageArguments arguments,
+  ) {
+    return BlocProvider(
+      create: (context) => SelectStartpointPageBloc(
+        artistService: sl<ArtistService>(),
+        locationService: sl<LocationService>(),
+        selectedSpecialityIds: arguments.selectedSpecialityIds,
+      ),
+      child: SelectStartpointPage._(),
+    );
+  }
 
   static MaterialPageRoute route(
     SelectStartpointPageArguments arguments,
   ) {
     return MaterialPageRoute(
-      builder: (context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SelectStartpointPageBloc(
-              artistService: sl<ArtistService>(),
-              locationService: sl<LocationService>(),
-              selectedSpecialityIds: arguments.selectedSpecialityIds,
-            ),
-          )
-        ],
-        child: SelectStartpointPage(),
+      builder: (context) => SelectStartpointPage.blocProvider(
+        arguments,
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return BlocListener<SelectStartpointPageBloc, SelectStartpointPageState>(
       listenWhen: (_, current) {
         return current is SelectStartpointUpdated && current.hasSelectedArtist;

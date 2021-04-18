@@ -15,15 +15,21 @@ final sl = GetIt.instance;
 class SpecialityPreferencesPage extends StatelessWidget {
   static const String routeName = '/route_planner/speciality-preferences';
 
+  SpecialityPreferencesPage._();
+
+  static Widget blocProvider() {
+    return BlocProvider(
+      create: (context) => SpecialityPreferencesPageBloc(
+        specialityService: sl<SpecialityService>(),
+      ),
+      child: SpecialityPreferencesPage._(),
+    );
+  }
+
   // TODO: implement Flutter navigtor 2.0
   static MaterialPageRoute route() {
     return MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        create: (context) => SpecialityPreferencesPageBloc(
-          sl<SpecialityService>(),
-        ),
-        child: SpecialityPreferencesPage(),
-      ),
+      builder: (context) => SpecialityPreferencesPage.blocProvider(),
     );
   }
 

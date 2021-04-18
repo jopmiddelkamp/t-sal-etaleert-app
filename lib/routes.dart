@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'src/intro/pages/home/home_page.dart';
-import 'src/intro/pages/intro/intro_page.dart';
+import 'src/intro/intro_page.dart';
 import 'src/route_planner/pages/route/route_page.dart';
 import 'src/route_planner/pages/select_startpoint/select_startpoint_page.dart';
 import 'src/route_planner/pages/speciality_preferences/speciality_preferences_page.dart';
@@ -13,8 +12,6 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case IntroPage.routeName:
       return IntroPage.route();
-    case HomePage.routeName:
-      return HomePage.route();
     case SpecialityPreferencesPage.routeName:
       return SpecialityPreferencesPage.route();
     case SelectStartpointPage.routeName:

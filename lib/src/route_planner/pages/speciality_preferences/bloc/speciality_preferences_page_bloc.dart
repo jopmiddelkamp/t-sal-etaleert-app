@@ -11,9 +11,10 @@ class SpecialityPreferencesPageBloc extends Bloc<SpecialityPreferencesPageEvent,
 
   late StreamSubscription _specialitiesStreamSub;
 
-  SpecialityPreferencesPageBloc(
-    this._specialityService,
-  ) : super(SpecialityPreferencesInitializing()) {
+  SpecialityPreferencesPageBloc({
+    required SpecialityService specialityService,
+  })   : _specialityService = specialityService,
+        super(SpecialityPreferencesInitializing()) {
     add(SpecialityPreferencesInitialize());
   }
 
