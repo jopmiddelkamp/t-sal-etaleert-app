@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:tsal_etaleert/environment_variable.dart';
+import 'package:tsal_etaleert/src/common/models/route_stop_model.dart';
+import 'package:tsal_etaleert/src/common/repositories/route_generator/route_xl/interceptors/auth_interceptor.dart';
 
 import '../../../models/artist_model.dart';
-import '../../../models/route_model.dart';
 import '../../dio_repository_base.dart';
 import '../route_generator_repository.dart';
 import 'extensions/rx_tour_response_extensions.dart';
@@ -12,29 +16,48 @@ import 'models/rx_tour_response_model.dart';
 class RouteXlRouteGeneratorRepository extends DioRepositoryBase
     implements RouteGeneratorRepository {
   RouteXlRouteGeneratorRepository({
+    required EnvironmentVariables env,
     required Dio http,
-    required String baseUrl,
   }) : super(
           http: http,
-          baseUrl: baseUrl,
-        );
+          baseUrl: env.routeXlBaseUrl,
+        ) {
+    http.interceptors.insert(
+      0,
+      AuthInterceptor(
+        username: env.routeXlUsername,
+        password: env.routeXlPassword,
+      ),
+    );
+  }
 
   @override
-  Future<RouteModel> generateRoute({
+  Future<List<RouteStopModel>> generateRouteStops({
     required final ArtistModel artistToStartAt,
     required final Set<ArtistModel> artistsToVisit,
   }) async {
+    final requestUrl = getApiUrl('/tour');
+    final requestBody = _getTourRequestModel(
+      artistsToVisit: artistsToVisit,
+      artistToStartAt: artistToStartAt,
+    );
     final Response resp = await safeRequest(
       () => http.post(
-        getApiUrl('/tour'),
-        data: _getTourRequestModel(
-          artistsToVisit: artistsToVisit,
-          artistToStartAt: artistToStartAt,
+        requestUrl,
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
         ),
+        data: FormData.fromMap({
+          'locations': JsonEncoder().convert(requestBody.locations),
+        }),
+        // data: 'locations=${JsonEncoder().convert(requestBody.locations)}',
+        // queryParameters: {
+        //   'locations': JsonEncoder().convert(requestBody.locations)
+        // }),
       ),
     );
     final response = RxTourResponseModel.fromJson(resp.data);
-    return response.toRouteModel(
+    return response.toRouteStopModels(
       artistsToVisit: artistsToVisit,
     );
   }
@@ -47,14 +70,23 @@ class RouteXlRouteGeneratorRepository extends DioRepositoryBase
       artistsToVisit: artistsToVisit,
       artistToStartAt: artistToStartAt,
     );
+    final locations = artists
+        .asMap()
+        .map<int, RxLocationModel>((i, e) {
+          final isLast = i == artists.length - 1;
+          return MapEntry(
+            i,
+            RxLocationModel(
+              name: isLast ? "The last location" : e.profile.fullName,
+              lat: e.location.latitude,
+              lng: e.location.latitude,
+            ),
+          );
+        })
+        .values
+        .toList();
     final data = RxTourRequestModel(
-      locations: artists.map((e) {
-        return RxLocationModel(
-          address: e.profile.fullName,
-          latitude: e.location.latitude,
-          longitude: e.location.latitude,
-        );
-      }).toList(),
+      locations: locations,
     );
     return data;
   }

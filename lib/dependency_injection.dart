@@ -19,6 +19,9 @@ final sl = GetIt.instance;
 
 Future<void> initServiceLocator() async {
   await _initEnvironment();
+
+  await sl.allReady();
+
   _initRepositories();
   await _initServices();
 
@@ -50,8 +53,8 @@ void _initRepositories() {
   );
   sl.registerSingletonWithDependencies<RouteGeneratorRepository>(
     () => RouteXlRouteGeneratorRepository(
-      http: sl<Dio>(),
-      baseUrl: sl<EnvironmentVariables>().routeXlBaseUrl,
+      http: Dio(), // Need custom
+      env: sl<EnvironmentVariables>(),
     ),
     dependsOn: [
       Dio,

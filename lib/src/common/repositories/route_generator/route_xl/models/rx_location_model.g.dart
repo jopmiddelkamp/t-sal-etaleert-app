@@ -8,15 +8,15 @@ part of 'rx_location_model.dart';
 
 RxLocationModel _$RxLocationModelFromJson(Map<String, dynamic> json) {
   return RxLocationModel(
-    address: json['address'] as String,
-    latitude: (json['latitude'] as num).toDouble(),
-    longitude: (json['longitude'] as num).toDouble(),
+    name: json['name'] as String,
+    lat: (json['lat'] as num).toDouble(),
+    lng: (json['lng'] as num).toDouble(),
   );
 }
 
 Map<String, dynamic> _$RxLocationModelToJson(RxLocationModel instance) =>
     <String, dynamic>{
-      'address': instance.address,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
+      'name': instance.name,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };

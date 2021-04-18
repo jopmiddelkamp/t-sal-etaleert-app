@@ -16,7 +16,7 @@ class EnvironmentVariablesImpl extends EnvironmentVariables {
   // fromEvironment have to be const values
   static const _routeXlBaseUrl = String.fromEnvironment(
     'ROUTE_XL_BASE_URL',
-    defaultValue: 'https://api.routexl.com/',
+    defaultValue: 'https://api.routexl.com',
   );
   static const _routeXlUsername = String.fromEnvironment(
     'ROUTE_XL_USERNAME',

@@ -1,15 +1,28 @@
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 typedef RequestFunction = Future<Response> Function();
 
 abstract class DioRepositoryBase {
   final Dio http;
   final String baseUrl;
+  final Map<String, dynamic>? headers;
 
-  const DioRepositoryBase({
+  DioRepositoryBase({
     required this.http,
     required this.baseUrl,
-  });
+    this.headers,
+  }) {
+    http.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 75,
+    ));
+  }
 
   Future<Response> safeRequest(RequestFunction req) async {
     try {
@@ -30,6 +43,15 @@ abstract class DioRepositoryBase {
     String resource,
   ) {
     return baseUrl + (resource.startsWith('/') ? resource : '/$resource');
+  }
+
+  getHeaders([
+    Map<String, dynamic>? headers,
+  ]) {
+    return {
+      ...this.headers ?? {},
+      ...headers ?? {},
+    };
   }
 
   // void _handleApiError(int statusCode, ApiErrorDTO error) {

@@ -5,25 +5,25 @@ part 'rx_location_model.g.dart';
 
 @JsonSerializable()
 class RxLocationModel extends Equatable {
-  final String address;
-  final double latitude;
-  final double longitude;
+  final String name;
+  final double lat;
+  final double lng;
 
   const RxLocationModel({
-    required this.address,
-    required this.latitude,
-    required this.longitude,
+    required this.name,
+    required this.lat,
+    required this.lng,
   });
 
   @override
   String toString() =>
-      '${this.runtimeType} { address: $address, latitude: $latitude, longitude: $longitude }';
+      '${this.runtimeType} { name: $name, lat: $lat, lng: $lng }';
 
   @override
   List<Object> get props => [
-        address,
-        latitude,
-        longitude,
+        name,
+        lat,
+        lng,
       ];
 
   factory RxLocationModel.fromJson(Map<String, dynamic> json) =>

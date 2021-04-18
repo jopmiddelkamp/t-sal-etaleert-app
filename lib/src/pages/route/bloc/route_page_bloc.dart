@@ -5,7 +5,6 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../../common/extensions/position_extensions.dart';
 import '../../../common/models/artist_model.dart';
-import '../../../common/models/route_stop_model.dart';
 import '../../../common/services/route_service.dart';
 import 'barrel.dart';
 
@@ -77,18 +76,10 @@ class RoutePageBloc extends Bloc<RoutePageEvent, RoutePageState> {
     RouteCreateRoute event,
   ) async* {
     _routeStreamSub?.cancel();
-    await _routeService.createRoute([
-      RouteStopModel(
-        artist: event.startingArtist,
-      ),
-      ...event.artists.where((e) {
-        return e.id != event.startingArtistId;
-      }).map((e) {
-        return RouteStopModel(
-          artist: e,
-        );
-      }).toList(growable: false),
-    ]);
+    await _routeService.createRoute(
+      artists: event.artists.toSet(),
+      artistToStartAt: event.startingArtist,
+    );
     await _openRoute();
   }
 
