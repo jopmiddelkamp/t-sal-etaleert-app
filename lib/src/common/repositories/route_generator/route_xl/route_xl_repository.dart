@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:tsal_etaleert/environment_variable.dart';
-import 'package:tsal_etaleert/src/common/models/route_stop_model.dart';
-import 'package:tsal_etaleert/src/common/repositories/route_generator/route_xl/interceptors/auth_interceptor.dart';
 
+import '../../../../../environment_variable.dart';
 import '../../../models/artist_model.dart';
+import '../../../models/route_stop_model.dart';
 import '../../dio_repository_base.dart';
 import '../route_generator_repository.dart';
 import 'extensions/rx_tour_response_extensions.dart';
+import 'interceptors/rx_auth_interceptor.dart';
 import 'models/rx_location_model.dart';
 import 'models/rx_tour_request_model.dart';
 import 'models/rx_tour_response_model.dart';
@@ -24,7 +24,7 @@ class RouteXlRouteGeneratorRepository extends DioRepositoryBase
         ) {
     http.interceptors.insert(
       0,
-      AuthInterceptor(
+      RxAuthInterceptor(
         username: env.routeXlUsername,
         password: env.routeXlPassword,
       ),

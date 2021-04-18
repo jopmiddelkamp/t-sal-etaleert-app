@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:tsal_etaleert/src/common/extensions/string_extensions.dart';
 
-class AuthInterceptor extends Interceptor {
+import '../../../../extensions/string_extensions.dart';
+
+class RxAuthInterceptor extends Interceptor {
   final String _username;
   final String _password;
 
-  AuthInterceptor({
+  RxAuthInterceptor({
     required final String username,
     required final String password,
   })   : _username = username,

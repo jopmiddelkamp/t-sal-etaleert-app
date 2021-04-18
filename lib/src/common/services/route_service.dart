@@ -1,6 +1,6 @@
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:tsal_etaleert/src/common/models/artist_model.dart';
 
+import '../models/artist_model.dart';
 import '../models/route_model.dart';
 import '../repositories/route/route_repository.dart';
 import '../repositories/route_generator/route_generator_repository.dart';
